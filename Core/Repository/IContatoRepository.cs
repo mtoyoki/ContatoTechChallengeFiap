@@ -4,7 +4,7 @@ namespace Core.Repository
 {
     public interface IContatoRepository : IRepository<Contato>
     {
-        public IList<Contato> ListarPorDdd(int ddd);
+        public IEnumerable<Contato> ListarPorDdd(int ddd);
 
     }
 }

@@ -6,7 +6,7 @@ using WebApi.Model;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("/[controller]")]
+    [Route("api/[controller]")]
     public class ContatoController : ControllerBase
     {
         private readonly IContatoRepository _contatoRepository;

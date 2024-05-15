@@ -4,7 +4,7 @@
     {
         public string Regiao { get; set; }
 
-        public IList<Contato> Contatos { get; set; }
+        public IEnumerable<Contato> Contatos { get; set; }
 
         public Ddd()
         {            

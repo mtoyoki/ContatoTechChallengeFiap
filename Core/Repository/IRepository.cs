@@ -4,7 +4,7 @@ namespace Core.Repository
 {
     public interface IRepository<T> where T : BaseEntity
     {
-        IList<T> GetAll();
+        IEnumerable<T> GetAll();
 
         T? GetById(int id);
 

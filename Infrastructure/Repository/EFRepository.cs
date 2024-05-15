@@ -16,7 +16,7 @@ namespace Infrastructure.Repository
             _dbSet = _context.Set<T>();
         }
 
-        public IList<T> GetAll()
+        public IEnumerable<T> GetAll()
         {
             return _dbSet.ToList();
         }

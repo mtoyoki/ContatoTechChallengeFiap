@@ -11,7 +11,7 @@ namespace Infrastructure.Repository
         {
         }
 
-        public IList<Contato> ListarPorDdd(int ddd)
+        public IEnumerable<Contato> ListarPorDdd(int ddd)
         {
             var contatos = _context.Contato.Where(c => c.DddId == ddd).ToList();
 
