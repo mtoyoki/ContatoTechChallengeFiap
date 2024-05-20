@@ -52,8 +52,9 @@ namespace Domain.Commands.Contato.Validators
 
         private void ValidateRegionId()
         {
-            RuleFor(command => command.Telefone)
-                .Length(2)
+            RuleFor(command => command.RegiaoId)
+                .GreaterThan(10)
+                .LessThan(100)
                 .WithMessage("Número do DDD inválido");
 
             RuleFor(command => command.RegiaoId)

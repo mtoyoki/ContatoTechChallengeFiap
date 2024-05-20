@@ -1,6 +1,5 @@
 ﻿using Core.Entities;
 using Core.Repositories;
-using Domain.Entities;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 

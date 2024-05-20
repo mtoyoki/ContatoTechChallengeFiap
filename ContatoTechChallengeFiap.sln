@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{7E4A90B5-DAFE-47DE-ABD5-A0176F3FF6A5}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Database.sqlproj", "{3F7A1CE9-8096-4AF0-8CFC-7DF7FEFFD5FE}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{7BE9034E-126B-4D78-AEF6-B6D4E461C0D7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{EDC4D6EF-709E-4219-A420-01DBB9C44A95}"
@@ -35,12 +33,6 @@ Global
 		{7E4A90B5-DAFE-47DE-ABD5-A0176F3FF6A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E4A90B5-DAFE-47DE-ABD5-A0176F3FF6A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E4A90B5-DAFE-47DE-ABD5-A0176F3FF6A5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F7A1CE9-8096-4AF0-8CFC-7DF7FEFFD5FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F7A1CE9-8096-4AF0-8CFC-7DF7FEFFD5FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F7A1CE9-8096-4AF0-8CFC-7DF7FEFFD5FE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{3F7A1CE9-8096-4AF0-8CFC-7DF7FEFFD5FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F7A1CE9-8096-4AF0-8CFC-7DF7FEFFD5FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F7A1CE9-8096-4AF0-8CFC-7DF7FEFFD5FE}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{7BE9034E-126B-4D78-AEF6-B6D4E461C0D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7BE9034E-126B-4D78-AEF6-B6D4E461C0D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BE9034E-126B-4D78-AEF6-B6D4E461C0D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
