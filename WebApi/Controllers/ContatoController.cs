@@ -1,7 +1,7 @@
-﻿using Core.Entity;
-using Core.Repository;
+﻿using Application.Contato;
+using Core.Commands;
+using Domain.Commands.Contato;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Model;
 
 namespace WebApi.Controllers
 {
@@ -9,11 +9,21 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class ContatoController : ControllerBase
     {
-        private readonly IContatoRepository _contatoRepository;
+        private readonly IContatoQueries _contatoQueries;
+        private readonly ICommandHandler<CreateContatoCommand> _createContatoCommandHandler;
+        private readonly ICommandHandler<UpdateContatoCommand> _updateContatoCommandHandler;
+        private readonly ICommandHandler<DeleteContatoCommand> _deleteContatoCommandHandler;
 
-        public ContatoController(IContatoRepository contatoRepository)
+
+        public ContatoController(IContatoQueries contatoQueries,
+                                 ICommandHandler<CreateContatoCommand> createContatoCommandHandler,
+                                 ICommandHandler<UpdateContatoCommand> updateContatoCommandHandler,
+                                 ICommandHandler<DeleteContatoCommand> deleteContatoCommandHandler)
         {
-            _contatoRepository = contatoRepository;
+            _contatoQueries = contatoQueries;
+            _createContatoCommandHandler = createContatoCommandHandler;
+            _updateContatoCommandHandler = updateContatoCommandHandler;
+            _deleteContatoCommandHandler = deleteContatoCommandHandler;
         }
 
         [HttpGet]
@@ -21,9 +31,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                var contatos = _contatoRepository.GetAll();
-
-                if (contatos == null) return NotFound();
+                var contatos = _contatoQueries.GetAllAsync().Result;
 
                 return Ok(contatos);
             }
@@ -33,96 +41,45 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult Get([FromRoute] int id)
-        {
-            try
-            {
-                var contato = _contatoRepository.GetById(id);
-
-                if (contato == null) return NotFound();
-
-                return Ok(contato);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpPost]
-        public IActionResult Post([FromBody] ContatoNewModel model)
+        public IActionResult Post([FromBody] CreateContatoCommand command)
         {
-            try
-            {
-                var contato = new Contato()
-                {
-                    Nome = model.Nome,
-                    Email = model.Email,
-                    Telefone = model.Telefone,
-                    DddId = model.DDD
-                };
+            var result = _createContatoCommandHandler.Handle(command);
 
-                _contatoRepository.Insert(contato);
+            if (result.Success)
+                return Ok(result);
 
-                return Ok(contato);
-
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            return BadRequest(result.Errors);
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] ContatoUpdateModel model)
+        public IActionResult Put([FromBody] UpdateContatoCommand command)
         {
-            try
-            {
-                var contato = _contatoRepository.GetById(model.Id);
+            var result = _updateContatoCommandHandler.Handle(command);
 
-                if (contato == null) return NotFound();
+            if (result.Success)
+                return Ok(result);
 
-                contato.Nome = model.Nome;
-                contato.Email = model.Email;
-                contato.Telefone = model.Telefone;
-                contato.DddId = model.DDD;
-
-                _contatoRepository.Update(contato);
-
-                return Ok(contato);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            return BadRequest(result.Errors);
         }
 
-        [HttpDelete("{id:int}")]
-        public IActionResult Delete([FromRoute] int id)
+        [HttpDelete]
+        public IActionResult Delete([FromBody] DeleteContatoCommand command)
         {
-            try
-            {
-                var contato = _contatoRepository.GetById(id);
+            var result = _deleteContatoCommandHandler.Handle(command);
 
-                if (contato == null) return NotFound();
+            if (result.Success)
+                return Ok(result);
 
-                _contatoRepository.Delete(contato);
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            return BadRequest(result.Errors);
         }
 
-        [HttpGet("listar-por-ddd/{ddd:int}")]
-        public IActionResult ListarPorRegiaoId([FromRoute] int ddd)
+        [HttpGet("listar-por-ddd/{regiaoId:int}")]
+        public IActionResult ListarPorRegiaoId([FromRoute] int regiaoId)
         {
             try
             {
-                var contatos = _contatoRepository.ListarPorDdd(ddd);
+                var contatos = _contatoQueries.GetByRegiaoIdAsync(regiaoId).Result;
 
                 if (contatos == null) return NotFound();
 

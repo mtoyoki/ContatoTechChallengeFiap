@@ -1,14 +1,10 @@
-using Core.Repository;
-using Infrastructure.Database;
-using Infrastructure.Repository;
+using Core.Repositories;
+using Infrastructure.Context;
+using Infrastructure.Repositories;
+using IoC;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Acessa arquivo de configuração
-var configuration = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
-    .Build();
 
 // Add services to the container.
 
@@ -17,15 +13,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Adiciona o DbContext como scoped
-builder.Services.AddDbContext<ApplicationDbContext>(options=>
-{
-    options.UseSqlServer(configuration.GetConnectionString("ConnectionString"));
-}, ServiceLifetime.Scoped);
+// Acessa arquivo de configuração
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .Build();
+
+// Adiciona DbContext via injeção de dependência
+builder.Services.AddDbContext(configuration);
+
+// Adiciona classes via injeção de dependência
+builder.Services.Register();
 
 // Injeção de dependência das classes de Repository
-builder.Services.AddScoped<IContatoRepository, ContatoRepository>();
-builder.Services.AddScoped<IDddRepository, DddRepository>();
+//builder.Services.AddScoped<IContatoRepository, ContatoRepository>();
+//builder.Services.AddScoped<IDddRepository, DddRepository>();
 
 var app = builder.Build();
 
