@@ -18,7 +18,7 @@ namespace WebApi.Tests
             {
                 builder.ConfigureServices(services =>
                 {
-                    var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
+                    var descriptor = services.Single(d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
                     services.Remove(descriptor);
                     services.AddDbContext<ApplicationDbContext>(options => { options.UseSqlServer(connectionString); });
                 });
@@ -49,8 +49,8 @@ namespace WebApi.Tests
         protected void ResetDatabase()
         {
             var dbContext = GetDbContext();
-            dbContext.Database.ExecuteSqlRaw("delete contato");
-            dbContext.Database.ExecuteSqlRaw("delete regiao");
+            dbContext.Database.ExecuteSqlRaw("DELETE CONTATO");
+            dbContext.Database.ExecuteSqlRaw("DELETE REGIAO");
         }
     }
 }

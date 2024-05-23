@@ -1,9 +1,8 @@
-﻿using Domain.Commands.Contato;
-using Domain.Entities;
-using Domain.Repositories;
+﻿using Domain.Repositories;
 using FluentAssertions;
 using Infrastructure.Repositories;
 using NUnit.Framework;
+using Shared.Tests.Builders.Commands;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -34,16 +33,17 @@ namespace WebApi.Tests.Controllers
         public void Create_Contato(string nome, HttpStatusCode httpStatusCode, int count)
         {
             //Arrange
-            var regiao = new Regiao(11, "SAO PAULO");
-            base.SeedData(regiao);
+            var regiaoSaoPaulo = new RegiaoBuilder().SaoPaulo().Build();
+            var regiaoRioDeJaneiro = new RegiaoBuilder().RioDeJaneiro().Build();
 
-            var command = new CreateContatoCommand
-            {
-                Nome = nome,
-                Email = "jose@gmail.com",
-                Telefone = "11972117173",
-                RegiaoId = 11
-            };
+            base.SeedData(regiaoSaoPaulo, regiaoRioDeJaneiro);
+
+            var command = new CreateContatoCommandBuilder()
+                                            .Default()
+                                            .WithNome(nome)
+                                            .WithRegiaoId(regiaoSaoPaulo.Id)
+                                            .Build();
+
 
             //Act
             var httpResponseMessage = _httpClient.PostAsJsonAsync(url, command).Result;
