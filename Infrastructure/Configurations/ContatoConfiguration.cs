@@ -1,5 +1,4 @@
-﻿using Core.Entities;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -17,9 +16,13 @@ namespace Infrastructure.Configurations
             builder.Property(p => p.Email).HasColumnType("VARCHAR(50)");
             builder.Property(p => p.RegiaoId).HasColumnType("INT").IsRequired();
 
+            //builder.HasOne(c => c.Regiao)
+            //        .WithMany(r => r.Contatos)
+            //        .HasPrincipalKey(r => r.Id);
+
             builder.HasOne(c => c.Regiao)
-                    .WithMany(r => r.Contatos)
-                    .HasPrincipalKey(r => r.Id);
+                   .WithMany()         
+                   .HasForeignKey(c => c.RegiaoId);
         }
     }
 }

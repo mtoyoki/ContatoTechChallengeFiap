@@ -1,27 +1,23 @@
-﻿using Core.Entities;
-
-namespace Domain.Entities
+﻿namespace Domain.Queries.Contato
 {
-    public class Contato: BaseEntity
+    public class ContatoQueryResult
     {
+        public int Id { get; set; }
         public string Nome { get; set; }
         public string Telefone { get; set; }
         public string Email { get; set; }
         public int RegiaoId { get; set; }
+        public string DescricaoRegiao { get; set; }
 
-        public virtual Regiao Regiao { get; set; }
 
-        public Contato()
-        {
-        }
-
-        public Contato(int id, string nome, string telefone, string email, int regiaoId)
+        public ContatoQueryResult(int id, string nome, string telefone, string email, int regiaoId, string descricaoRegiao)
         {
             Id = id;
             Nome = nome;
             Telefone = telefone;
             Email = email;
             RegiaoId = regiaoId;
+            DescricaoRegiao = descricaoRegiao;
         }
 
     }

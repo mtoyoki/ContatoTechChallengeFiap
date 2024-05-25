@@ -31,7 +31,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                var contatos = _contatoQueries.GetAllAsync().Result;
+                var contatos = _contatoQueries.GetAsync().Result;
 
                 return Ok(contatos);
             }

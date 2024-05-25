@@ -1,5 +1,6 @@
 ﻿using Domain.Commands.Contato;
 using Domain.Entities;
+using Domain.Queries.Contato;
 using Domain.Repositories;
 using FluentAssertions;
 using Infrastructure.Repositories;
@@ -196,7 +197,7 @@ namespace WebApi.Tests.Controllers
         }
 
         [Test]
-        public void GetAll()
+        public void Get()
         {
             //Arrange
             var regiao1 = new RegiaoBuilder().SaoPaulo().Build();
@@ -249,7 +250,7 @@ namespace WebApi.Tests.Controllers
             httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var content = httpResponseMessage.Content.ReadAsStringAsync().Result;
-            var contatos = JsonConvert.DeserializeObject<IEnumerable<Contato>>(content);
+            var contatos = JsonConvert.DeserializeObject<IEnumerable<ContatoQueryResult>>(content);
             contatos.Should().HaveCount(countRegiao1);
         }
 

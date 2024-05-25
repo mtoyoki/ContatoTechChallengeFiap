@@ -6,7 +6,6 @@ namespace Domain.Entities
     {
         public string Descricao { get; set; }
 
-        public IEnumerable<Contato> Contatos { get; set; }
 
         public Regiao()
         {            
