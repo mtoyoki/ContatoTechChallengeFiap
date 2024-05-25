@@ -59,11 +59,11 @@ namespace WebApi.Tests.Controllers
             var regiao = new RegiaoBuilder().SaoPaulo().Build();
             base.SeedData(regiao);
 
-            var nomeEmpty = "";
+            var empty = "";
 
             var command = new CreateContatoCommandBuilder()
                                             .Default()
-                                            .WithNome(nomeEmpty)
+                                            .WithNome(empty)
                                             .WithRegiaoId(regiao.Id)
                                             .Build();
             //Act
@@ -105,12 +105,12 @@ namespace WebApi.Tests.Controllers
             //Arrange
             Contato contato = CreateContatoEntity();
 
-            var nomeEmpty = "";
+            var empty = "";
 
             var command = new UpdateContatoCommandBuilder()
                                 .Default()
                                 .WithId(contato.Id)
-                                .WithNome(nomeEmpty)
+                                .WithNome(empty)
                                 .Build();
 
             //Act
@@ -126,11 +126,11 @@ namespace WebApi.Tests.Controllers
             //Arrange
             Contato contato = CreateContatoEntity();
 
-            var idInvalid = 999;
+            var invalidId = 999;
 
             var command = new UpdateContatoCommandBuilder()
                                 .Default()
-                                .WithId(idInvalid)                                
+                                .WithId(invalidId)                                
                                 .Build();
 
             //Act
@@ -182,11 +182,11 @@ namespace WebApi.Tests.Controllers
         public void Delete_Invalid_NotExists()
         {
             //Arrange
-            var idInvalid = 999;
+            var invalidId = 999;
 
             var command = new DeleteContatoCommand()
             {
-                Id = idInvalid
+                Id = invalidId
             };
 
             //Act
