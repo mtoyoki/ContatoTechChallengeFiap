@@ -75,7 +75,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("listar-por-ddd/{regiaoId:int}")]
-        public IActionResult ListarPorRegiaoId([FromRoute] int regiaoId)
+        public IActionResult GetByRegiaoId([FromRoute] int regiaoId)
         {
             try
             {

@@ -10,6 +10,12 @@ namespace Shared.Tests.Builders.Commands
         private string Email { get; set; }
         private int RegiaoId { get; set; }
 
+        public ContatoBuilder WithId(int id)
+        {
+            Id = id;
+            return this;
+        }
+
         public ContatoBuilder WithNome(string nome)
         {
             Nome = nome;
@@ -37,8 +43,8 @@ namespace Shared.Tests.Builders.Commands
 
         public ContatoBuilder Default()
         {
-            this.Nome = "João da Silva";
-            this.Email = "jose@gmail.com";
+            this.Nome = "Nome de teste";
+            this.Email = "teste@gmail.com";
             this.Telefone = "11972117173";
             this.RegiaoId = 11;
             return this;
@@ -49,6 +55,7 @@ namespace Shared.Tests.Builders.Commands
         {
             var entity = new Contato()
             {
+                Id = Id,
                 Nome = this.Nome,
                 Telefone = this.Telefone,
                 Email = this.Email,

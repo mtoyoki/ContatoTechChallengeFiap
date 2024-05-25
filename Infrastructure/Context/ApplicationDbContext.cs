@@ -6,22 +6,26 @@ namespace Infrastructure.Context
 {
     public class ApplicationDbContext : DbContext
     {
-        private readonly string _connectionString;
+        //private readonly string _connectionString;
 
-        public ApplicationDbContext()
-        {
-            IConfiguration configuration = new ConfigurationBuilder()
-                                                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                                                    .AddJsonFile("appsettings.json")
-                                                    .Build();
+        //public ApplicationDbContext()
+        //{
+        //    IConfiguration configuration = new ConfigurationBuilder()
+        //                                            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+        //                                            .AddJsonFile("appsettings.json")
+        //                                            .Build();
 
-            _connectionString = configuration.GetConnectionString("ConnectionString");
-        }
+        //    _connectionString = configuration.GetConnectionString("ConnectionString");
+        //}
 
-        public ApplicationDbContext(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
+        //public ApplicationDbContext(string connectionString)
+        //{
+        //    _connectionString = connectionString;
+        //}
+
+        public ApplicationDbContext(DbContextOptions options) : base(options) { }
+
+        public ApplicationDbContext() { }
 
         public DbSet<Contato> Contato { get; set; }
         public DbSet<Regiao> Regiao { get; set; }
@@ -30,13 +34,15 @@ namespace Infrastructure.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(_connectionString);
+                optionsBuilder.UseSqlServer("ConnectionString");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

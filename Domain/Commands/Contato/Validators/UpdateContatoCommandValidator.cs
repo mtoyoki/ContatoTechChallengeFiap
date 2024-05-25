@@ -5,9 +5,14 @@ namespace Domain.Commands.Contato.Validators
 {
     public class UpdateContatoCommandValidator : ContatoCommandValidatorBase<UpdateContatoCommand>
     {
-        public UpdateContatoCommandValidator(IRegiaoRepository regiaoRepository) : base(regiaoRepository)
+        private readonly IContatoRepository _contatoRepository;
+
+        public UpdateContatoCommandValidator(IContatoRepository contatoRepository, IRegiaoRepository regiaoRepository) : base(regiaoRepository)
         {
+            _contatoRepository = contatoRepository;
+
             ValidateId();
+            ValidateExists();
         }
 
         private void ValidateId()
@@ -16,6 +21,14 @@ namespace Domain.Commands.Contato.Validators
                 .Must(id => !id.Equals(0))
                 .WithSeverity(Severity.Error)
                 .WithMessage("Preenchimento do ID do Contato é obrigatório");
+        }
+
+        private void ValidateExists()
+        {
+            RuleFor(command => command.Id)
+                .Must(id => _contatoRepository.GetById(id) != null)
+                .WithSeverity(Severity.Error)
+                .WithMessage("Não foi possível encontrar o Contato");
         }
     }
 }

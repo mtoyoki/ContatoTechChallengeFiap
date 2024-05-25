@@ -26,7 +26,7 @@ namespace Domain.Tests.Commands.Contato.Validators
         [Theory]
         [InlineData(null)]
         [InlineData("")]
-        public void Nome_Vazio(string nome)
+        public void Nome_Empty(string nome)
         {
             //Arrange
             var command = new CreateContatoCommand()
@@ -48,7 +48,7 @@ namespace Domain.Tests.Commands.Contato.Validators
         [Theory]
         [InlineData("ab")]
         [InlineData("abcdefghijklmnopqrstuvxyzabcdefghijklmnopqrstuvxyzabcdefghijklmnopqrstuvxyzabcdefghijklmnopqrstuvxyzlmnopqrstuvxyzabcdefghijklmnopqrstuvxyz")]
-        public void Nome_Invalido(string nome)
+        public void Nome_Invalid(string nome)
         {
             //Arrange
             var command = new CreateContatoCommand()
@@ -70,7 +70,7 @@ namespace Domain.Tests.Commands.Contato.Validators
         [Theory]
         [InlineData(null)]
         [InlineData("")]
-        public void Email_Vazio(string email)
+        public void Email_Empty(string email)
         {
             //Arrange
             var command = new CreateContatoCommand()
@@ -91,7 +91,7 @@ namespace Domain.Tests.Commands.Contato.Validators
 
         [Theory]
         [InlineData("email.com.br")]
-        public void Email_Invalido(string email)
+        public void Email_Invalid(string email)
         {
             //Arrange
             var command = new CreateContatoCommand()

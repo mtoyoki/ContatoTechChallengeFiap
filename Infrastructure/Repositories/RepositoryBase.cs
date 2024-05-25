@@ -23,7 +23,7 @@ namespace Infrastructure.Repositories
 
         public T? GetById(int id)
         {
-            return _dbSet.FirstOrDefault(entity => entity.Id == id);
+            return _dbSet.AsNoTracking().FirstOrDefault(entity => entity.Id == id);
         }
 
         public void Insert(T entity)

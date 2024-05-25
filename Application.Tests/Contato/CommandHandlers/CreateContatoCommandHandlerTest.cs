@@ -15,11 +15,11 @@ namespace Application.Tests.Contato.CommandHandlers
         public CreateContatoCommandHandlerTest()
         {
             _contatoRepository = new Mock<IContatoRepository>();
-            _regiaoRepository = new Mock<IRegiaoRepository>();
 
-            var regiaoSaoPaulo = new Domain.Entities.Regiao(11, "São Paulo");          
-            _regiaoRepository.Setup(r => r.GetById(regiaoSaoPaulo.Id))
-                             .Returns(regiaoSaoPaulo);
+            _regiaoRepository = new Mock<IRegiaoRepository>();
+            var regiaoMock = new Domain.Entities.Regiao(11, "São Paulo");          
+            _regiaoRepository.Setup(r => r.GetById(regiaoMock.Id))
+                             .Returns(regiaoMock);
 
             var createContatoCommandValidator = new CreateContatoCommandValidator(_regiaoRepository.Object);
 
@@ -28,7 +28,7 @@ namespace Application.Tests.Contato.CommandHandlers
         }
 
         [Fact]
-        public void Should_Create_When_Command_Is_Valid()
+        public void Create_Command_Valid()
         {
             //Arrange
             var createContatoCommand = new CreateContatoCommand
@@ -48,7 +48,7 @@ namespace Application.Tests.Contato.CommandHandlers
         }
 
         [Fact]
-        public void Should_Not_Create_When_Command_Is_Invalid()
+        public void Create_Command_Invalid()
         {
             //Arrange
             var createContatoCommand = new CreateContatoCommand
@@ -66,6 +66,5 @@ namespace Application.Tests.Contato.CommandHandlers
             Assert.False(result.Success);
             _contatoRepository.Verify(c => c.Insert(It.IsAny<Domain.Entities.Contato>()), Times.Never);
         }
-
     }
 }

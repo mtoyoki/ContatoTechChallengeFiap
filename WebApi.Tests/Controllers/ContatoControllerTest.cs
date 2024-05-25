@@ -1,10 +1,15 @@
-﻿using Domain.Repositories;
+﻿using Domain.Commands.Contato;
+using Domain.Entities;
+using Domain.Repositories;
 using FluentAssertions;
 using Infrastructure.Repositories;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using Shared.Tests.Builders.Commands;
 using System.Net;
 using System.Net.Http.Json;
+using WebApi.Tests.Lib;
+
 
 namespace WebApi.Tests.Controllers
 {
@@ -27,30 +32,245 @@ namespace WebApi.Tests.Controllers
             ResetDatabase();
         }
 
-        [Theory]
-        [TestCase("José da Silva", HttpStatusCode.OK, 1)]
-        [TestCase("", HttpStatusCode.BadRequest, 0)]
-        public void Create_Contato(string nome, HttpStatusCode httpStatusCode, int count)
+        [Test]
+        public void Create_Valid()
         {
             //Arrange
-            var regiaoSaoPaulo = new RegiaoBuilder().SaoPaulo().Build();
-            var regiaoRioDeJaneiro = new RegiaoBuilder().RioDeJaneiro().Build();
-
-            base.SeedData(regiaoSaoPaulo, regiaoRioDeJaneiro);
+            var regiao = new RegiaoBuilder().SaoPaulo().Build();
+            base.SeedData(regiao);
 
             var command = new CreateContatoCommandBuilder()
                                             .Default()
-                                            .WithNome(nome)
-                                            .WithRegiaoId(regiaoSaoPaulo.Id)
+                                            .WithRegiaoId(regiao.Id)
                                             .Build();
-
-
             //Act
             var httpResponseMessage = _httpClient.PostAsJsonAsync(url, command).Result;
 
             //Assert
-            httpResponseMessage.StatusCode.Should().Be(httpStatusCode);
-            (_contatoRepository.GetAllAsync().Result).Count().Should().Be(count);
+            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            (_contatoRepository.GetAllAsync().Result).Count().Should().Be(1);
+        }
+
+        [Test]
+        public void Create_Invalid()
+        {
+            //Arrange
+            var regiao = new RegiaoBuilder().SaoPaulo().Build();
+            base.SeedData(regiao);
+
+            var nomeEmpty = "";
+
+            var command = new CreateContatoCommandBuilder()
+                                            .Default()
+                                            .WithNome(nomeEmpty)
+                                            .WithRegiaoId(regiao.Id)
+                                            .Build();
+            //Act
+            var httpResponseMessage = _httpClient.PostAsJsonAsync(url, command).Result;
+
+            //Assert
+            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            (_contatoRepository.GetAllAsync().Result).Count().Should().Be(0);
+        }
+
+
+        [Test]
+        public void Update_Valid()
+        {
+            //Arrange
+            Contato contato = CreateContatoEntity();
+
+            var nomeUpdate = "Nome alterado";
+
+            var command = new UpdateContatoCommandBuilder()
+                                .Default()
+                                .WithId(contato.Id)
+                                .WithNome(nomeUpdate)
+                                .Build();
+
+            //Act
+            var httpResponseMessage = _httpClient.PutAsJsonAsync(url, command).Result;
+
+            //Assert
+            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var updatedContato = (_contatoRepository.GetAllAsync().Result).Single(c=> c.Id == contato.Id);
+            updatedContato.Nome.Should().Be(nomeUpdate);
+        }
+
+        [Test]
+        public void Update_Invalid_Empty()
+        {
+            //Arrange
+            Contato contato = CreateContatoEntity();
+
+            var nomeEmpty = "";
+
+            var command = new UpdateContatoCommandBuilder()
+                                .Default()
+                                .WithId(contato.Id)
+                                .WithNome(nomeEmpty)
+                                .Build();
+
+            //Act
+            var httpResponseMessage = _httpClient.PutAsJsonAsync(url, command).Result;
+
+            //Assert
+            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Test]
+        public void Update_Invalid_NotExists()
+        {
+            //Arrange
+            Contato contato = CreateContatoEntity();
+
+            var idInvalid = 999;
+
+            var command = new UpdateContatoCommandBuilder()
+                                .Default()
+                                .WithId(idInvalid)                                
+                                .Build();
+
+            //Act
+            var httpResponseMessage = _httpClient.PutAsJsonAsync(url, command).Result;
+
+            //Assert
+            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+
+        [Test]
+        public void Delete_Valid()
+        {
+            //Arrange
+            Contato contato = CreateContatoEntity();
+
+            var command = new DeleteContatoCommand()
+            {
+                Id = contato.Id,
+            };
+
+            //Act
+            var httpResponseMessage = _httpClient.DeleteAsJsonAsync(url, command).Result;
+
+            //Assert
+            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var deletedContato = (_contatoRepository.GetAllAsync().Result).SingleOrDefault(c => c.Id == contato.Id);
+            deletedContato.Should().BeNull();
+        }
+
+
+        [Test]
+        public void Delete_Invalid_Empty()
+        {
+            //Arrange
+            var command = new DeleteContatoCommand()
+            {
+            };
+
+            //Act
+            var httpResponseMessage = _httpClient.DeleteAsJsonAsync(url, command).Result;
+
+            //Assert
+            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Test]
+        public void Delete_Invalid_NotExists()
+        {
+            //Arrange
+            var idInvalid = 999;
+
+            var command = new DeleteContatoCommand()
+            {
+                Id = idInvalid
+            };
+
+            //Act
+            var httpResponseMessage = _httpClient.DeleteAsJsonAsync(url, command).Result;
+
+            //Assert
+            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Test]
+        public void GetAll()
+        {
+            //Arrange
+            var regiao1 = new RegiaoBuilder().SaoPaulo().Build();
+            var regiao2 = new RegiaoBuilder().RioDeJaneiro().Build();
+
+            base.SeedData(regiao1);
+            base.SeedData(regiao2);
+
+            var contato1 = CreateContatoEntity(regiao1);
+            var contato2 = CreateContatoEntity(regiao1);
+            var contato3 = CreateContatoEntity(regiao2);
+
+            var countAll = 3;
+
+            //Act
+            var httpResponseMessage = _httpClient.GetAsync(url).Result;
+
+            //Assert
+            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var content = httpResponseMessage.Content.ReadAsStringAsync().Result;
+            var contatos = JsonConvert.DeserializeObject<IEnumerable<Contato>>(content);
+            contatos.Should().HaveCount(countAll);
+        }
+
+
+        [Test]
+        public void GetByRegiaoId()
+        {
+            //Arrange
+            var regiao1 = new RegiaoBuilder().SaoPaulo().Build();
+            var regiao2 = new RegiaoBuilder().RioDeJaneiro().Build();
+
+            base.SeedData(regiao1);
+            base.SeedData(regiao2);
+
+            var contato1 = CreateContatoEntity(regiao1);
+            var contato2 = CreateContatoEntity(regiao1);
+            var contato3 = CreateContatoEntity(regiao2);
+
+            var idRegiao1 = regiao1.Id;
+            var countRegiao1 = 2;
+
+            var urlListar = $"{url}/listar-por-ddd/{idRegiao1}";
+
+            //Act
+            var httpResponseMessage = _httpClient.GetAsync(urlListar).Result;
+
+            //Assert
+            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var content = httpResponseMessage.Content.ReadAsStringAsync().Result;
+            var contatos = JsonConvert.DeserializeObject<IEnumerable<Contato>>(content);
+            contatos.Should().HaveCount(countRegiao1);
+        }
+
+
+
+        private Contato CreateContatoEntity(Regiao regiao = null)
+        {
+            if (regiao == null)
+            {
+                regiao = new RegiaoBuilder().SaoPaulo().Build();
+                base.SeedData(regiao);
+            }
+
+            var contato = new ContatoBuilder()
+                                .Default()            
+                                .WithRegiaoId(regiao.Id)
+                                .Build();
+
+            _contatoRepository.Insert(contato);
+
+            return contato;            
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Application.Contato;
-using Domain.Commands.Contato;
 using Domain.Commands.Contato.Validators;
 using Domain.Repositories;
 using Moq;
+using Shared.Tests.Builders.Commands;
 
 namespace Application.Tests.Contato.CommandHandlers
 {
@@ -12,32 +12,40 @@ namespace Application.Tests.Contato.CommandHandlers
         private readonly Mock<IRegiaoRepository> _regiaoRepository;
         private readonly UpdateContatoCommandHandler _commandHandler;
 
+        private int contatoIdMock = 1;
+
         public UpdateContatoCommandHandlerTest()
         {
+            // Mock Contato Repository
+            var contatoMock = new ContatoBuilder()
+                                    .Default()
+                                    .Build();
+
             _contatoRepository = new Mock<IContatoRepository>();
+
+            _contatoRepository.Setup(r => r.GetById(contatoIdMock))
+                              .Returns(contatoMock);
+
+            // Mock Regiao Repository
             _regiaoRepository = new Mock<IRegiaoRepository>();
 
-            var regiaoSaoPaulo = new Domain.Entities.Regiao(11, "São Paulo");          
-            _regiaoRepository.Setup(r => r.GetById(regiaoSaoPaulo.Id))
-                             .Returns(regiaoSaoPaulo);
+            var regiaoMock = new Domain.Entities.Regiao(11, "São Paulo");          
+            _regiaoRepository.Setup(r => r.GetById(regiaoMock.Id))
+                             .Returns(regiaoMock);
 
-            var commandValidator = new UpdateContatoCommandValidator(_regiaoRepository.Object);
+            var commandValidator = new UpdateContatoCommandValidator(_contatoRepository.Object, _regiaoRepository.Object);
 
             _commandHandler = new UpdateContatoCommandHandler(commandValidator, _contatoRepository.Object);
         }
 
         [Fact]
-        public void Should_Update_When_Command_Is_Valid()
+        public void Update_Command_Valid()
         {
             //Arrange
-            var command = new UpdateContatoCommand
-            {
-                Id = 1,
-                Nome = "José da Silva",
-                Email = "jose@gmail.com",
-                Telefone = "11972117173",
-                RegiaoId = 11                  
-            };
+            var command = new UpdateContatoCommandBuilder()
+                                        .Default()
+                                        .WithId(contatoIdMock)
+                                        .Build();
 
             //Act
             var result = _commandHandler.Handle(command);
@@ -48,17 +56,15 @@ namespace Application.Tests.Contato.CommandHandlers
         }
 
         [Fact]
-        public void Should_Not_Update_When_Command_Is_Invalid()
+        public void Update_Command_Invalid()
         {
             //Arrange
-            var command = new UpdateContatoCommand
-            {
-                Id = 0,
-                Nome = "",
-                Email = "",
-                Telefone = "",
-                RegiaoId = 11
-            };
+            var contatoIdInvalid = 999;
+
+            var command = new UpdateContatoCommandBuilder()
+                                        .Default()
+                                        .WithId(contatoIdInvalid)
+                                        .Build();
 
             //Act
             var result = _commandHandler.Handle(command);

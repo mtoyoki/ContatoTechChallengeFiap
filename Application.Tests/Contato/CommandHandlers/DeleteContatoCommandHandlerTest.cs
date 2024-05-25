@@ -3,6 +3,7 @@ using Domain.Commands.Contato;
 using Domain.Commands.Contato.Validators;
 using Domain.Repositories;
 using Moq;
+using Shared.Tests.Builders.Commands;
 
 namespace Application.Tests.Contato.CommandHandlers
 {
@@ -10,21 +11,20 @@ namespace Application.Tests.Contato.CommandHandlers
     {
         private readonly Mock<IContatoRepository> _contatoRepository;
         private readonly DeleteContatoCommandHandler _commandHandler;
+        private int contatoIdMock = 1;
 
         public DeleteContatoCommandHandlerTest()
         {
-            var contato = new Domain.Entities.Contato()
-            {
-                Id = 1,
-                Nome = "José da Silva",
-                Email = "jose@gmail.com",
-                Telefone = "11972117173",
-                RegiaoId = 11
-            };
+
+            // Mock Contato Repository
+            var contatoMock = new ContatoBuilder()
+                                    .Default()
+                                    .Build();
 
             _contatoRepository = new Mock<IContatoRepository>();
-            _contatoRepository.Setup(r => r.GetById(contato.Id))
-                              .Returns(contato);
+
+            _contatoRepository.Setup(r => r.GetById(contatoIdMock))
+                              .Returns(contatoMock);
 
             var commandValidator = new DeleteContatoCommandValidator(_contatoRepository.Object);
 
@@ -32,12 +32,12 @@ namespace Application.Tests.Contato.CommandHandlers
         }
 
         [Fact]
-        public void Should_Update_When_Command_Is_Valid()
+        public void Delete_Command_Valid()
         {
             //Arrange
             var command = new DeleteContatoCommand
             {
-                Id = 1
+                Id = contatoIdMock
             };
 
             //Act
@@ -49,11 +49,14 @@ namespace Application.Tests.Contato.CommandHandlers
         }
 
         [Fact]
-        public void Should_Not_Update_When_Command_Is_Invalid()
+        public void Delete_Command_Invalid()
         {
             //Arrange
+            var contatoIdInvalid = 999;
+
             var command = new DeleteContatoCommand
             {
+                Id = contatoIdInvalid
             };
 
             //Act

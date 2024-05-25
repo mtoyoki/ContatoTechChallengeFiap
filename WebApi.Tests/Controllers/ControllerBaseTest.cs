@@ -1,6 +1,8 @@
-﻿using Infrastructure.Context;
+﻿using FluentAssertions.Common;
+using Infrastructure.Context;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 
@@ -10,19 +12,28 @@ namespace WebApi.Tests
     {
         protected readonly HttpClient _httpClient;
         private readonly IServiceProvider _serviceProvider;
-        private const string connectionString = "Data Source =.;database=DB_CONTATO_TEST;Trusted_Connection=True;";
+        private const string connectionStringTest = "Data Source =.;database=DB_CONTATO_TEST;Trusted_Connection=True;";
 
         public ControllerBaseTest()
         {
-            var _webApplicationFactory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
+            var _webApplicationFactory = new WebApplicationFactory<Startup>().WithWebHostBuilder(builder =>
             {
+                // Acessa arquivo de configuração
+                var configuration = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json")
+                    .Build();                
+
                 builder.ConfigureServices(services =>
                 {
-                    var descriptor = services.Single(d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
+                    var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
                     services.Remove(descriptor);
-                    services.AddDbContext<ApplicationDbContext>(options => { options.UseSqlServer(connectionString); });
+                    services.AddDbContext<ApplicationDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("ConnectionStringTest")); });
                 });
             });
+
+
+            //services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("ConnectionString")));
+
 
             _serviceProvider = _webApplicationFactory.Services;
             _httpClient = _webApplicationFactory.CreateClient();
