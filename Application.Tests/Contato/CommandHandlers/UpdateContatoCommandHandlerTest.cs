@@ -17,11 +17,11 @@ namespace Application.Tests.Contato.CommandHandlers
         public UpdateContatoCommandHandlerTest()
         {
             // Mock Contato Repository
+            _contatoRepository = new Mock<IContatoRepository>();
+
             var contatoMock = new ContatoBuilder()
                                     .Default()
                                     .Build();
-
-            _contatoRepository = new Mock<IContatoRepository>();
 
             _contatoRepository.Setup(r => r.GetById(contatoIdMock))
                               .Returns(contatoMock);
@@ -30,12 +30,16 @@ namespace Application.Tests.Contato.CommandHandlers
             _regiaoRepository = new Mock<IRegiaoRepository>();
 
             var regiaoMock = new Domain.Entities.Regiao(11, "São Paulo");          
+
             _regiaoRepository.Setup(r => r.GetById(regiaoMock.Id))
                              .Returns(regiaoMock);
 
-            var commandValidator = new UpdateContatoCommandValidator(_contatoRepository.Object, _regiaoRepository.Object);
+            // Create CommandValidator and CommandHandler
+            var commandValidator = new UpdateContatoCommandValidator(_contatoRepository.Object,
+                                                                     _regiaoRepository.Object);
 
-            _commandHandler = new UpdateContatoCommandHandler(commandValidator, _contatoRepository.Object);
+            _commandHandler = new UpdateContatoCommandHandler(commandValidator,
+                                                              _contatoRepository.Object);
         }
 
         [Fact]
@@ -52,7 +56,8 @@ namespace Application.Tests.Contato.CommandHandlers
 
             //Assert
             Assert.True(result.Success);
-            _contatoRepository.Verify(c => c.Update(It.IsAny<Domain.Entities.Contato>()), Times.Once);
+            _contatoRepository.Verify(c => c.Update(It.IsAny<Domain.Entities.Contato>()),
+                                                    Times.Once);
         }
 
         [Fact]
@@ -71,7 +76,8 @@ namespace Application.Tests.Contato.CommandHandlers
 
             //Assert
             Assert.False(result.Success);
-            _contatoRepository.Verify(c => c.Update(It.IsAny<Domain.Entities.Contato>()), Times.Never);
+            _contatoRepository.Verify(c => c.Update(It.IsAny<Domain.Entities.Contato>()),
+                                                    Times.Never);
         }
 
     }

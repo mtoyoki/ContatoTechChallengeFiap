@@ -1,8 +1,8 @@
 ﻿using Application.Contato;
-using Domain.Commands.Contato;
 using Domain.Commands.Contato.Validators;
 using Domain.Repositories;
 using Moq;
+using Shared.Tests.Builders.Commands;
 
 namespace Application.Tests.Contato.CommandHandlers
 {
@@ -14,13 +14,18 @@ namespace Application.Tests.Contato.CommandHandlers
 
         public CreateContatoCommandHandlerTest()
         {
+            // Mock Contato Repository
             _contatoRepository = new Mock<IContatoRepository>();
 
+            // Mock Regiao Repository
             _regiaoRepository = new Mock<IRegiaoRepository>();
-            var regiaoMock = new Domain.Entities.Regiao(11, "São Paulo");          
+
+            var regiaoMock = new Domain.Entities.Regiao(11, "São Paulo");     
+            
             _regiaoRepository.Setup(r => r.GetById(regiaoMock.Id))
                              .Returns(regiaoMock);
 
+            // Create CommandValidator and CommandHandler
             var createContatoCommandValidator = new CreateContatoCommandValidator(_regiaoRepository.Object);
 
             _createContatoCommandHandler = new CreateContatoCommandHandler(createContatoCommandValidator,
@@ -31,40 +36,34 @@ namespace Application.Tests.Contato.CommandHandlers
         public void Create_Command_Valid()
         {
             //Arrange
-            var createContatoCommand = new CreateContatoCommand
-            {
-                Nome = "José da Silva",
-                Email = "jose@gmail.com",
-                Telefone = "11972117173",
-                RegiaoId = 11                  
-            };
+            var createContatoCommand = new CreateContatoCommandBuilder()
+                                                        .Default()
+                                                        .Build();
 
             //Act
             var result = _createContatoCommandHandler.Handle(createContatoCommand);
 
             //Assert
             Assert.True(result.Success);
-            _contatoRepository.Verify(c => c.Insert(It.IsAny<Domain.Entities.Contato>()), Times.Once);
+            _contatoRepository.Verify(c => c.Insert(It.IsAny<Domain.Entities.Contato>()),
+                                                    Times.Once);
         }
 
         [Fact]
         public void Create_Command_Invalid()
         {
             //Arrange
-            var createContatoCommand = new CreateContatoCommand
-            {
-                Nome = "",
-                Email = "",
-                Telefone = "",
-                RegiaoId = 11
-            };
+            var createContatoCommand = new CreateContatoCommandBuilder()
+                                                        .Empty()
+                                                        .Build();
 
             //Act
             var result = _createContatoCommandHandler.Handle(createContatoCommand);
 
             //Assert
             Assert.False(result.Success);
-            _contatoRepository.Verify(c => c.Insert(It.IsAny<Domain.Entities.Contato>()), Times.Never);
+            _contatoRepository.Verify(c => c.Insert(It.IsAny<Domain.Entities.Contato>()),
+                                                    Times.Never);
         }
     }
 }

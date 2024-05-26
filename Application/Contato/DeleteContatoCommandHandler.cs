@@ -10,7 +10,8 @@ namespace Application.Contato
         private readonly IValidator<DeleteContatoCommand> _validator;
         private readonly IContatoRepository _contatoRepository;
 
-        public DeleteContatoCommandHandler(IValidator<DeleteContatoCommand> deleteContatoCommandValidator, IContatoRepository contatoRepository)
+        public DeleteContatoCommandHandler(IValidator<DeleteContatoCommand> deleteContatoCommandValidator,
+                                           IContatoRepository contatoRepository)
         {
             _validator = deleteContatoCommandValidator;
             _contatoRepository = contatoRepository;

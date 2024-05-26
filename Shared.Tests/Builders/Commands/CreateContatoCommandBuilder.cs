@@ -43,6 +43,15 @@ namespace Shared.Tests.Builders.Commands
             return this;
         }
 
+        public CreateContatoCommandBuilder Empty()
+        {
+            this.Nome = "";
+            this.Email = "";
+            this.Telefone = "";
+            this.RegiaoId = 0;
+            return this;
+        }
+
 
         public CreateContatoCommand Build()
         {

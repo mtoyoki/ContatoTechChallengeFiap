@@ -11,7 +11,8 @@ namespace Application.Contato
         private readonly IValidator<UpdateContatoCommand> _updateContatoCommandValidator;
         private readonly IContatoRepository _contatoRepository;
 
-        public UpdateContatoCommandHandler(IValidator<UpdateContatoCommand> updateContatoCommandValidator, IContatoRepository contatoRepository)
+        public UpdateContatoCommandHandler(IValidator<UpdateContatoCommand> updateContatoCommandValidator,
+                                           IContatoRepository contatoRepository)
         {
             _updateContatoCommandValidator = updateContatoCommandValidator;
             _contatoRepository = contatoRepository;

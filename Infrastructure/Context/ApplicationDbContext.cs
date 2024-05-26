@@ -1,28 +1,10 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Context
 {
     public class ApplicationDbContext : DbContext
     {
-        //private readonly string _connectionString;
-
-        //public ApplicationDbContext()
-        //{
-        //    IConfiguration configuration = new ConfigurationBuilder()
-        //                                            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-        //                                            .AddJsonFile("appsettings.json")
-        //                                            .Build();
-
-        //    _connectionString = configuration.GetConnectionString("ConnectionString");
-        //}
-
-        //public ApplicationDbContext(string connectionString)
-        //{
-        //    _connectionString = connectionString;
-        //}
-
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
         public ApplicationDbContext() { }

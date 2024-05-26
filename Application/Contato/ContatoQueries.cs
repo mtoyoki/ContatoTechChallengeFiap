@@ -17,7 +17,6 @@ namespace Application.Contato
             return _contatoRepository.GetAsync();
         }
 
-
         public Task<IEnumerable<ContatoQueryResult>> GetByRegiaoIdAsync(int regiaoId)
         {
             return _contatoRepository.GetByRegiaoIdAsync(regiaoId);

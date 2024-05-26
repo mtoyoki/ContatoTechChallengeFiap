@@ -8,6 +8,5 @@ namespace Domain.Repositories
     {
         public Task<IEnumerable<ContatoQueryResult>> GetAsync();
         public Task<IEnumerable<ContatoQueryResult>> GetByRegiaoIdAsync(int regiaoId);        
-
     }
 }

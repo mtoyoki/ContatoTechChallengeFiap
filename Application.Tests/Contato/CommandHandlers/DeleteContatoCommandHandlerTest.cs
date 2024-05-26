@@ -26,9 +26,11 @@ namespace Application.Tests.Contato.CommandHandlers
             _contatoRepository.Setup(r => r.GetById(contatoIdMock))
                               .Returns(contatoMock);
 
+            // Create CommandValidator and CommandHandler
             var commandValidator = new DeleteContatoCommandValidator(_contatoRepository.Object);
 
-            _commandHandler = new DeleteContatoCommandHandler(commandValidator, _contatoRepository.Object);
+            _commandHandler = new DeleteContatoCommandHandler(commandValidator,
+                                                              _contatoRepository.Object);
         }
 
         [Fact]
@@ -45,7 +47,8 @@ namespace Application.Tests.Contato.CommandHandlers
 
             //Assert
             Assert.True(result.Success);
-            _contatoRepository.Verify(c => c.Delete(It.IsAny<int>()), Times.Once);
+            _contatoRepository.Verify(c => c.Delete(It.IsAny<int>()),
+                                                    Times.Once);
         }
 
         [Fact]
@@ -64,7 +67,8 @@ namespace Application.Tests.Contato.CommandHandlers
 
             //Assert
             Assert.False(result.Success);
-            _contatoRepository.Verify(c => c.Delete(It.IsAny<int>()), Times.Never);
+            _contatoRepository.Verify(c => c.Delete(It.IsAny<int>()),
+                                                    Times.Never);
         }
     }
 }

@@ -12,13 +12,12 @@ namespace Infrastructure.Repositories
         {
         }
 
-
         public async Task<IEnumerable<ContatoQueryResult>> GetAsync()
         {
             return await _context.Contato
-                     .Include("Regiao")
-                     .Select(c => ContatoQueryResult(c))
-                     .ToListAsync();
+                                 .Include("Regiao")
+                                 .Select(c => ContatoQueryResult(c))
+                                 .ToListAsync();
         }
 
         public async Task<IEnumerable<ContatoQueryResult>> GetByRegiaoIdAsync(int regiaoId)
@@ -29,14 +28,12 @@ namespace Infrastructure.Repositories
                                  .Select(c => ContatoQueryResult(c))
                                  .ToListAsync();
         }
-            
 
-        private static ContatoQueryResult ContatoQueryResult(Domain.Entities.Contato contato) => new ContatoQueryResult(contato.Id,
-                                                                                                                        contato.Nome,
-                                                                                                                        contato.Telefone,
-                                                                                                                        contato.Email,
-                                                                                                                        contato.RegiaoId,
-                                                                                                                        contato.Regiao.Descricao);
-
+        private static ContatoQueryResult ContatoQueryResult(Contato contato) => new ContatoQueryResult(contato.Id,
+                                                                                                        contato.Nome,
+                                                                                                        contato.Telefone,
+                                                                                                        contato.Email,
+                                                                                                        contato.RegiaoId,
+                                                                                                        contato.Regiao.Descricao);
     }
 }
