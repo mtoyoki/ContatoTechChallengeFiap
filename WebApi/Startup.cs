@@ -20,7 +20,7 @@ namespace WebApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Sample Library ",
+                    Title = "Contato Tech Challenge",
                     Version = "v1",
                 });
             });
@@ -36,7 +36,7 @@ namespace WebApi
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SampleLibrary");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Contato");
                 c.DocExpansion(DocExpansion.None);
             });
 

@@ -2,7 +2,9 @@
 using Domain.Commands.Contato.Validators;
 using Domain.Repositories;
 using FluentAssertions;
+using FluentAssertions.Equivalency;
 using Moq;
+using Shared.Tests.Builders.Commands;
 
 namespace Domain.Tests.Commands.Contato.Validators
 {
@@ -15,9 +17,10 @@ namespace Domain.Tests.Commands.Contato.Validators
         {
             _regiaoRepositoryMock = new Mock<IRegiaoRepository>();
 
-            var regiaoSaoPaulo = new Domain.Entities.Regiao(11, "São Paulo");
-            _regiaoRepositoryMock.Setup(r => r.GetById(regiaoSaoPaulo.Id))
-                                 .Returns(regiaoSaoPaulo);
+            var regiaoMock = new Domain.Entities.Regiao(11, "São Paulo");
+
+            _regiaoRepositoryMock.Setup(r => r.GetById(regiaoMock.Id))
+                                 .Returns(regiaoMock);
 
             _validator = new CreateContatoCommandValidator(_regiaoRepositoryMock.Object);
 
@@ -29,13 +32,10 @@ namespace Domain.Tests.Commands.Contato.Validators
         public void Nome_Empty(string nome)
         {
             //Arrange
-            var command = new CreateContatoCommand()
-            {
-                Nome = nome,
-                Email = "email@email.com.br",
-                Telefone = "1197327272",
-                RegiaoId = 11
-            };
+            var command = new CreateContatoCommandBuilder()
+                                        .Default()
+                                        .WithNome(nome)
+                                        .Build();
 
             //Act
             var validationResult = _validator.Validate(command);
@@ -51,13 +51,10 @@ namespace Domain.Tests.Commands.Contato.Validators
         public void Nome_Invalid(string nome)
         {
             //Arrange
-            var command = new CreateContatoCommand()
-            {
-                Nome = nome,
-                Email = "email@email.com.br",
-                Telefone = "1197327272",
-                RegiaoId = 11
-            };
+            var command = new CreateContatoCommandBuilder()
+                                        .Default()
+                                        .WithNome(nome)
+                                        .Build();
 
             //Act
             var validationResult = _validator.Validate(command);
@@ -68,18 +65,14 @@ namespace Domain.Tests.Commands.Contato.Validators
         }
 
         [Theory]
-        [InlineData(null)]
         [InlineData("")]
         public void Email_Empty(string email)
         {
             //Arrange
-            var command = new CreateContatoCommand()
-            {
-                Nome = "João da Silva",
-                Email = email,
-                Telefone = "1197327272",
-                RegiaoId = 11
-            };
+            var command = new CreateContatoCommandBuilder()
+                                        .Default()
+                                        .WithEmail(email)
+                                        .Build();
 
             //Act
             var validationResult = _validator.Validate(command);
@@ -91,16 +84,14 @@ namespace Domain.Tests.Commands.Contato.Validators
 
         [Theory]
         [InlineData("email.com.br")]
+        [InlineData("email@combr")]
         public void Email_Invalid(string email)
         {
             //Arrange
-            var command = new CreateContatoCommand()
-            {
-                Nome = "João da Silva",
-                Email = email,
-                Telefone = "1197327272",
-                RegiaoId = 11
-            };
+            var command = new CreateContatoCommandBuilder()
+                                        .Default()
+                                        .WithEmail(email)
+                                        .Build();
 
             //Act
             var validationResult = _validator.Validate(command);
@@ -108,6 +99,140 @@ namespace Domain.Tests.Commands.Contato.Validators
             //Assert
             validationResult.IsValid.Should().BeFalse();
             validationResult.Errors.Exists(e => e.ErrorMessage == "E-mail inválido").Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData("email@email.com.br")]
+        [InlineData("email@email.com")]
+        [InlineData("email@email.net.br")]
+        public void Email_Valid(string email)
+        {
+            //Arrange
+            var command = new CreateContatoCommandBuilder()
+                                        .Default()
+                                        .WithEmail(email)
+                                        .Build();
+
+            //Act
+            var validationResult = _validator.Validate(command);
+
+            //Assert
+            validationResult.IsValid.Should().BeTrue();
+        }
+
+
+
+        [Theory]
+        [InlineData("")]
+        public void Telefone_Empty(string telefone)
+        {
+            //Arrange
+            var command = new CreateContatoCommandBuilder()
+                                        .Default()
+                                        .WithTelefone(telefone)
+                                        .Build();
+
+            //Act
+            var validationResult = _validator.Validate(command);
+
+            //Assert
+            validationResult.IsValid.Should().BeFalse();
+            validationResult.Errors.Exists(e => e.ErrorMessage == "Preenchimento do Telefone é obrigatório").Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData("11999999")]
+        [InlineData("119999999999999")]
+        public void Telefone_Invalid(string telefone)
+        {
+            //Arrange
+            var command = new CreateContatoCommandBuilder()
+                                        .Default()
+                                        .WithTelefone(telefone)
+                                        .Build();
+
+            //Act
+            var validationResult = _validator.Validate(command);
+
+            //Assert
+            validationResult.IsValid.Should().BeFalse();
+            validationResult.Errors.Exists(e => e.ErrorMessage == "Telefone inválido").Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData("11972117171")]
+        public void Telefone_Valid(string telefone)
+        {
+            //Arrange
+            var command = new CreateContatoCommandBuilder()
+                                        .Default()
+                                        .WithTelefone(telefone)
+                                        .Build();
+
+            //Act
+            var validationResult = _validator.Validate(command);
+
+            //Assert
+            validationResult.IsValid.Should().BeTrue();
+        }
+
+
+
+
+
+        [Theory]
+        [InlineData(0)]
+        public void RegionId_Empty(int regionId)
+        {
+            //Arrange
+            var command = new CreateContatoCommandBuilder()
+                                        .Default()
+                                        .WithRegiaoId(regionId)
+                                        .Build();
+
+            //Act
+            var validationResult = _validator.Validate(command);
+
+            //Assert
+            validationResult.IsValid.Should().BeFalse();
+            validationResult.Errors.Exists(e => e.ErrorMessage == "Preenchimento do DDD é obrigatório").Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData(10)]
+        [InlineData(22)]
+        [InlineData(100)]
+        public void RegionId_Invalid(int regionId)
+        {
+            //Arrange
+            var command = new CreateContatoCommandBuilder()
+                                        .Default()
+                                        .WithRegiaoId(regionId)
+                                        .Build();
+
+            //Act
+            var validationResult = _validator.Validate(command);
+
+            //Assert
+            validationResult.IsValid.Should().BeFalse();
+            validationResult.Errors.Exists(e => e.ErrorMessage == "Número do DDD inválido").Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData(11)]
+        public void RegionId_Valid(int regionId)
+        {
+            //Arrange
+            var command = new CreateContatoCommandBuilder()
+                                        .Default()
+                                        .WithRegiaoId(regionId)
+                                        .Build();
+
+            //Act
+            var validationResult = _validator.Validate(command);
+
+            //Assert
+            validationResult.IsValid.Should().BeTrue();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Application.Contato;
 using Domain.Commands.Contato.Validators;
+using Domain.Entities;
 using Domain.Repositories;
 using Moq;
 using Shared.Tests.Builders.Commands;
@@ -20,8 +21,8 @@ namespace Application.Tests.Contato.CommandHandlers
             // Mock Regiao Repository
             _regiaoRepository = new Mock<IRegiaoRepository>();
 
-            var regiaoMock = new Domain.Entities.Regiao(11, "São Paulo");     
-            
+            var regiaoMock = new Domain.Entities.Regiao(11, "São Paulo");
+
             _regiaoRepository.Setup(r => r.GetById(regiaoMock.Id))
                              .Returns(regiaoMock);
 

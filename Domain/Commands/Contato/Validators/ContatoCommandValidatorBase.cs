@@ -1,5 +1,6 @@
 ﻿using Domain.Repositories;
 using FluentValidation;
+using FluentValidation.Validators;
 using System.Text.RegularExpressions;
 
 namespace Domain.Commands.Contato.Validators
@@ -21,7 +22,7 @@ namespace Domain.Commands.Contato.Validators
         private void ValidateNome()
         {
             RuleFor(command => command.Nome)
-                .Must(nome => !string.IsNullOrEmpty(nome))
+                .NotEmpty()
                 .WithMessage("Preenchimento do Nome é obrigatório");
 
             RuleFor(command => command.Nome)
@@ -34,15 +35,11 @@ namespace Domain.Commands.Contato.Validators
             Regex EmailRegex = new Regex(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
             RuleFor(command => command.Email)
-                .Must(email => !string.IsNullOrEmpty(email))
+                .NotEmpty()
                 .WithMessage("Preenchimento do E-mail é obrigatório");
 
             RuleFor(command => command.Email)
-                .EmailAddress()
-                .WithMessage("E-mail inválido");
-
-            RuleFor(command => command.Email)
-                .Must(email => !EmailRegex.IsMatch(email))
+                .Must(email => EmailRegex.IsMatch(email))
                 .WithMessage("E-mail inválido");
 
         }
@@ -52,7 +49,7 @@ namespace Domain.Commands.Contato.Validators
             Regex PhoneRegex = new Regex(@"^\(?\d{2}\)? ?9?\d{4}-?\d{4}$",RegexOptions.Compiled);
 
             RuleFor(command => command.Telefone)
-                .Must(telefone => !string.IsNullOrEmpty(telefone))
+                .NotEmpty()
                 .WithMessage("Preenchimento do Telefone é obrigatório");
 
             RuleFor(command => command.Telefone)
@@ -60,22 +57,22 @@ namespace Domain.Commands.Contato.Validators
                 .WithMessage("Telefone inválido");
 
             RuleFor(command => command.Telefone)
-                .Must(telefone => !PhoneRegex.IsMatch(telefone))
+                .Must(telefone => PhoneRegex.IsMatch(telefone))
                 .WithMessage("Telefone inválido");
 
         }
 
         private void ValidateRegionId()
         {
+
             RuleFor(command => command.RegiaoId)
-                .GreaterThan(10)
-                .LessThan(100)
-                .WithMessage("Número do DDD inválido");
+                .NotEmpty()
+                .WithMessage("Preenchimento do DDD é obrigatório");
 
             RuleFor(command => command.RegiaoId)
                 .Must(id => _regiaoRepository.GetById(id) != null)
                 .WithSeverity(Severity.Error)
-                .WithMessage("Número do DDD inexistente");
+                .WithMessage("Número do DDD inválido");
         }
 
     }

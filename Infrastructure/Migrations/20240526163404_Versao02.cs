@@ -14,6 +14,7 @@ namespace Infrastructure.Migrations
         {
             migrationBuilder.InsertData(
                 table: "REGIAO",
+                columnTypes: new[] { "int", "string"},
                 columns: new[] { "Id", "Descricao" },
                 values: new object[,]
                 {
