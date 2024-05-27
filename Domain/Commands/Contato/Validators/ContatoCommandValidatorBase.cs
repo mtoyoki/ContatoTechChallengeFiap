@@ -39,7 +39,7 @@ namespace Domain.Commands.Contato.Validators
                 .WithMessage("Preenchimento do E-mail é obrigatório");
 
             RuleFor(command => command.Email)
-                .Must(email => EmailRegex.IsMatch(email))
+                .Must(email => EmailRegex.IsMatch(email))                
                 .WithMessage("E-mail inválido");
 
         }

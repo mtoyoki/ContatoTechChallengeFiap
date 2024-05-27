@@ -1,27 +1,102 @@
 ﻿using Domain.Commands.Contato.Validators;
 using Domain.Repositories;
 using FluentAssertions;
+using FluentValidation;
 using Moq;
 using Shared.Tests.Builders.Commands;
 
 namespace Domain.Tests.Commands.Contato.Validators
 {
-    public class CreateContatoCommandValidatorTest
+    public class UpdateContatoCommandValidatorTest
     {
+        private readonly int _idContatoMock = 1;
+        private readonly Mock<IContatoRepository> _contatoRepositoryMock;
         private readonly Mock<IRegiaoRepository> _regiaoRepositoryMock;
-        private readonly CreateContatoCommandValidator _validator;
+        private readonly UpdateContatoCommandValidator _validator;
 
-        public CreateContatoCommandValidatorTest()
+        public UpdateContatoCommandValidatorTest()
         {
+            // Mock Regiao
             _regiaoRepositoryMock = new Mock<IRegiaoRepository>();
 
             var regiaoMock = new Domain.Entities.Regiao(11, "São Paulo");
 
             _regiaoRepositoryMock.Setup(r => r.GetById(regiaoMock.Id))
                                  .Returns(regiaoMock);
+            
 
-            _validator = new CreateContatoCommandValidator(_regiaoRepositoryMock.Object);
+            //Mock Contato
+            _contatoRepositoryMock = new Mock<IContatoRepository>();
 
+            var contatoMock = new ContatoBuilder()
+                                        .Default()
+                                        .WithId(_idContatoMock)
+                                        .Build();
+
+            _contatoRepositoryMock.Setup(r => r.GetById(_idContatoMock))
+                                  .Returns(contatoMock);
+
+            _validator = new UpdateContatoCommandValidator(_contatoRepositoryMock.Object,
+                                                           _regiaoRepositoryMock.Object);
+        }
+        
+        [Fact]
+        public void Id_Empty()
+        {
+            //Arrange
+            var idInvalid = 0;
+
+            var command = new UpdateContatoCommandBuilder()
+                                            .Default()
+                                            .WithId(idInvalid)
+                                            .Build();
+
+            //Act
+            var validationResult = _validator.Validate(command);
+
+            //Assert
+            validationResult.IsValid.Should().BeFalse();
+            validationResult.Errors.Exists(e => e.ErrorMessage == "Preenchimento do Id é obrigatório").Should().BeTrue();
+        }
+
+
+        [Fact]
+        public void Id_Invalid()
+        {
+            //Arrange
+            var idInvalid = 999;
+
+            var command = new UpdateContatoCommandBuilder()
+                                            .Default()
+                                            .WithId(idInvalid)
+                                            .Build();
+
+            //Act
+            var validationResult = _validator.Validate(command);
+
+            //Assert
+            validationResult.IsValid.Should().BeFalse();
+            validationResult.Errors.Exists(e => e.ErrorMessage == "Não foi possível encontrar o Contato").Should().BeTrue();
+
+        }
+
+
+        [Fact]
+        public void Id_Valid()
+        {
+            //Arrange
+            var idContatoValid = _idContatoMock;
+
+            var command = new UpdateContatoCommandBuilder()
+                                            .Default()
+                                            .WithId(idContatoValid)
+                                            .Build();
+
+            //Act
+            var validationResult = _validator.Validate(command);
+
+            //Assert
+            validationResult.IsValid.Should().BeTrue();
         }
 
         [Theory]
@@ -30,7 +105,7 @@ namespace Domain.Tests.Commands.Contato.Validators
         public void Nome_Empty(string nome)
         {
             //Arrange
-            var command = new CreateContatoCommandBuilder()
+            var command = new UpdateContatoCommandBuilder()
                                         .Default()
                                         .WithNome(nome)
                                         .Build();
@@ -49,7 +124,7 @@ namespace Domain.Tests.Commands.Contato.Validators
         public void Nome_Invalid(string nome)
         {
             //Arrange
-            var command = new CreateContatoCommandBuilder()
+            var command = new UpdateContatoCommandBuilder()
                                         .Default()
                                         .WithNome(nome)
                                         .Build();
@@ -67,7 +142,7 @@ namespace Domain.Tests.Commands.Contato.Validators
         public void Email_Empty(string email)
         {
             //Arrange
-            var command = new CreateContatoCommandBuilder()
+            var command = new UpdateContatoCommandBuilder()
                                         .Default()
                                         .WithEmail(email)
                                         .Build();
@@ -86,7 +161,7 @@ namespace Domain.Tests.Commands.Contato.Validators
         public void Email_Invalid(string email)
         {
             //Arrange
-            var command = new CreateContatoCommandBuilder()
+            var command = new UpdateContatoCommandBuilder()
                                         .Default()
                                         .WithEmail(email)
                                         .Build();
@@ -106,7 +181,7 @@ namespace Domain.Tests.Commands.Contato.Validators
         public void Email_Valid(string email)
         {
             //Arrange
-            var command = new CreateContatoCommandBuilder()
+            var command = new UpdateContatoCommandBuilder()
                                         .Default()
                                         .WithEmail(email)
                                         .Build();
@@ -125,7 +200,7 @@ namespace Domain.Tests.Commands.Contato.Validators
         public void Telefone_Empty(string telefone)
         {
             //Arrange
-            var command = new CreateContatoCommandBuilder()
+            var command = new UpdateContatoCommandBuilder()
                                         .Default()
                                         .WithTelefone(telefone)
                                         .Build();
@@ -144,7 +219,7 @@ namespace Domain.Tests.Commands.Contato.Validators
         public void Telefone_Invalid(string telefone)
         {
             //Arrange
-            var command = new CreateContatoCommandBuilder()
+            var command = new UpdateContatoCommandBuilder()
                                         .Default()
                                         .WithTelefone(telefone)
                                         .Build();
@@ -162,7 +237,7 @@ namespace Domain.Tests.Commands.Contato.Validators
         public void Telefone_Valid(string telefone)
         {
             //Arrange
-            var command = new CreateContatoCommandBuilder()
+            var command = new UpdateContatoCommandBuilder()
                                         .Default()
                                         .WithTelefone(telefone)
                                         .Build();
@@ -183,7 +258,7 @@ namespace Domain.Tests.Commands.Contato.Validators
         public void RegionId_Empty(int regionId)
         {
             //Arrange
-            var command = new CreateContatoCommandBuilder()
+            var command = new UpdateContatoCommandBuilder()
                                         .Default()
                                         .WithRegiaoId(regionId)
                                         .Build();
@@ -203,7 +278,7 @@ namespace Domain.Tests.Commands.Contato.Validators
         public void RegionId_Invalid(int regionId)
         {
             //Arrange
-            var command = new CreateContatoCommandBuilder()
+            var command = new UpdateContatoCommandBuilder()
                                         .Default()
                                         .WithRegiaoId(regionId)
                                         .Build();
@@ -221,7 +296,7 @@ namespace Domain.Tests.Commands.Contato.Validators
         public void RegionId_Valid(int regionId)
         {
             //Arrange
-            var command = new CreateContatoCommandBuilder()
+            var command = new UpdateContatoCommandBuilder()
                                         .Default()
                                         .WithRegiaoId(regionId)
                                         .Build();
@@ -232,5 +307,6 @@ namespace Domain.Tests.Commands.Contato.Validators
             //Assert
             validationResult.IsValid.Should().BeTrue();
         }
+
     }
 }

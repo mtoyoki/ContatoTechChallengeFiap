@@ -20,7 +20,7 @@ namespace Domain.Commands.Contato.Validators
             RuleFor(command => command.Id)
                 .Must(id => !id.Equals(0))
                 .WithSeverity(Severity.Error)
-                .WithMessage("Preenchimento do ID do Contato é obrigatório");
+                .WithMessage("Preenchimento do Id é obrigatório");
         }
 
         private void ValidateExists()
