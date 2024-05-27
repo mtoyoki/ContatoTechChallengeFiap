@@ -12,7 +12,6 @@ namespace WebApi.Tests
     {
         protected readonly HttpClient _httpClient;
         private readonly IServiceProvider _serviceProvider;
-        private const string connectionStringTest = "Data Source =.;database=DB_CONTATO_TEST;Trusted_Connection=True;";
 
         public ControllerBaseTest()
         {
@@ -30,10 +29,6 @@ namespace WebApi.Tests
                     services.AddDbContext<ApplicationDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("ConnectionStringTest")); });
                 });
             });
-
-
-            //services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("ConnectionString")));
-
 
             _serviceProvider = _webApplicationFactory.Services;
             _httpClient = _webApplicationFactory.CreateClient();

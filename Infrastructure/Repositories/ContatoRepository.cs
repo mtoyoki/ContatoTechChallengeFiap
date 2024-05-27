@@ -15,7 +15,7 @@ namespace Infrastructure.Repositories
         public async Task<IEnumerable<ContatoQueryResult>> GetAsync()
         {
             return await _context.Contato
-                                 .Include("Regiao")
+                                 .Include(c => c.Regiao)
                                  .Select(c => ContatoQueryResult(c))
                                  .ToListAsync();
         }
@@ -24,7 +24,7 @@ namespace Infrastructure.Repositories
         {
             return await _context.Contato
                                  .Where(c => c.RegiaoId == regiaoId)
-                                 .Include("Regiao")
+                                 .Include(c=> c.Regiao)
                                  .Select(c => ContatoQueryResult(c))
                                  .ToListAsync();
         }

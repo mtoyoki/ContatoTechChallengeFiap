@@ -197,7 +197,7 @@ namespace WebApi.Tests.Controllers
         }
 
         [Test]
-        public void Get()
+        public void GetAll()
         {
             //Arrange
             var regiao1 = new RegiaoBuilder().SaoPaulo().Build();
@@ -253,7 +253,6 @@ namespace WebApi.Tests.Controllers
             var contatos = JsonConvert.DeserializeObject<IEnumerable<ContatoQueryResult>>(content);
             contatos.Should().HaveCount(countRegiao1);
         }
-
 
 
         private Contato CreateContatoEntity(Regiao regiao = null)

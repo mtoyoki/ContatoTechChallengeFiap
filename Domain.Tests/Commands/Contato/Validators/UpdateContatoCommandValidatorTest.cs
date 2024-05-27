@@ -19,7 +19,7 @@ namespace Domain.Tests.Commands.Contato.Validators
             // Mock Regiao
             _regiaoRepositoryMock = new Mock<IRegiaoRepository>();
 
-            var regiaoMock = new Domain.Entities.Regiao(11, "São Paulo");
+            var regiaoMock = new Domain.Entities.Regiao(11, "São Paulo", "SP");
 
             _regiaoRepositoryMock.Setup(r => r.GetById(regiaoMock.Id))
                                  .Returns(regiaoMock);

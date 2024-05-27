@@ -6,6 +6,7 @@ namespace Shared.Tests.Builders.Commands
     {
         private int Id { get; set; }
         private string Descricao { get; set; }
+        private string Uf { get; set; }
 
 
         public RegiaoBuilder WithId(int id)
@@ -20,29 +21,27 @@ namespace Shared.Tests.Builders.Commands
             return this;
         }
 
+        public RegiaoBuilder WithUf(string uf)
+        {
+            Uf = uf;
+            return this;
+        }
 
         public RegiaoBuilder SaoPaulo()
         {
             this.Id = 11;
-            this.Descricao = "SAO PAULO";
-            return this;
-        }
-
-        public RegiaoBuilder LitoralSaoPaulo()
-        {
-            this.Id = 12;
-            this.Descricao = "LITORAL";
+            this.Descricao = "São Paulo e Região Metropolitana";
+            this.Uf = "SP";
             return this;
         }
 
         public RegiaoBuilder RioDeJaneiro()
         {
             this.Id = 21;
-            this.Descricao = "RIO DE JANEIRO";
+            this.Descricao = "Rio de Janeiro e Região Metropolitana";
+            this.Uf = "RJ";
             return this;
         }
-
-
 
         public Regiao Build()
         {
@@ -50,6 +49,7 @@ namespace Shared.Tests.Builders.Commands
             {
                 Id = Id,
                 Descricao = Descricao,
+                Uf = Uf
             };
 
             return entity;

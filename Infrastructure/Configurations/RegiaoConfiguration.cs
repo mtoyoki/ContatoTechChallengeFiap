@@ -20,6 +20,10 @@ namespace Infrastructure.Configurations
             builder.Property(p => p.Descricao)
                    .HasColumnType("VARCHAR(100)")
                    .IsRequired();
+
+            builder.Property(p => p.Uf)
+                   .HasColumnType("VARCHAR(10)")
+                   .IsRequired();
         }
     }
 }
