@@ -47,7 +47,7 @@ namespace Application.Tests.Contato.CommandHandlers
             //Assert
             Assert.True(result.Success);
             _contatoRepository.Verify(c => c.Insert(It.IsAny<Domain.Entities.Contato>()),
-                                                    Times.Once);
+                                      Times.Once);
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace Application.Tests.Contato.CommandHandlers
             //Assert
             Assert.False(result.Success);
             _contatoRepository.Verify(c => c.Insert(It.IsAny<Domain.Entities.Contato>()),
-                                                    Times.Never);
+                                      Times.Never);
         }
     }
 }

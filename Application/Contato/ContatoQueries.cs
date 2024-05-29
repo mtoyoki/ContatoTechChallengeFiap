@@ -12,9 +12,9 @@ namespace Application.Contato
             _contatoRepository = contatoRepository;
         }
 
-        public Task<IEnumerable<ContatoQueryResult>> GetAsync()
+        public Task<IEnumerable<ContatoQueryResult>> GetAllAsync()
         {
-            return _contatoRepository.GetAsync();
+            return _contatoRepository.GetAllAsync();
         }
 
         public Task<IEnumerable<ContatoQueryResult>> GetByRegiaoIdAsync(int regiaoId)
@@ -25,7 +25,7 @@ namespace Application.Contato
 
     public interface IContatoQueries
     {
-        Task<IEnumerable<ContatoQueryResult>> GetAsync();
+        Task<IEnumerable<ContatoQueryResult>> GetAllAsync();
         Task<IEnumerable<ContatoQueryResult>> GetByRegiaoIdAsync(int regiaoId);
     }
 }

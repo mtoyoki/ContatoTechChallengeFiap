@@ -12,11 +12,12 @@ namespace Infrastructure.Repositories
         {
         }
 
-        public async Task<IEnumerable<ContatoQueryResult>> GetAsync()
+        public async Task<IEnumerable<ContatoQueryResult>> GetAllAsync()
         {
             return await _context.Contato
                                  .Include(c => c.Regiao)
                                  .Select(c => ContatoQueryResult(c))
+                                 .AsNoTracking()
                                  .ToListAsync();
         }
 
@@ -26,6 +27,7 @@ namespace Infrastructure.Repositories
                                  .Where(c => c.RegiaoId == regiaoId)
                                  .Include(c=> c.Regiao)
                                  .Select(c => ContatoQueryResult(c))
+                                 .AsNoTracking()
                                  .ToListAsync();
         }
 

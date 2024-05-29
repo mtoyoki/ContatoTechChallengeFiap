@@ -46,20 +46,16 @@ namespace Domain.Commands.Contato.Validators
 
         private void ValidateTelefone()
         {
-            Regex PhoneRegex = new Regex(@"^\(?\d{2}\)? ?9?\d{4}-?\d{4}$",RegexOptions.Compiled);
+            Regex PhoneRegex = new Regex(@"^\(?\d{2}\)? ?9?\d{4}-?\d{4}$", RegexOptions.Compiled);
 
             RuleFor(command => command.Telefone)
                 .NotEmpty()
                 .WithMessage("Preenchimento do Telefone é obrigatório");
 
             RuleFor(command => command.Telefone)
-                .Length(10, 11)
-                .WithMessage("Telefone inválido");
-
-            RuleFor(command => command.Telefone)
                 .Must(telefone => PhoneRegex.IsMatch(telefone))
-                .WithMessage("Telefone inválido");
-
+                .WithMessage("Telefone inválido")
+                .When(c => !string.IsNullOrEmpty(c.Telefone));
         }
 
         private void ValidateRegionId()

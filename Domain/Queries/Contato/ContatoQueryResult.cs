@@ -9,6 +9,10 @@
         public int RegiaoId { get; set; }
         public string DescricaoRegiao { get; set; }
 
+        public ContatoQueryResult()
+        {
+        }
+
         public ContatoQueryResult(int id, string nome, string telefone, string email, int regiaoId, string descricaoRegiao)
         {
             Id = id;
