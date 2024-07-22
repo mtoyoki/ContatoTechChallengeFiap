@@ -1,13 +1,12 @@
+version: '3.4'
+
 services:
   webapi:
-    #container_name: webapi-container
     image: ${DOCKER_REGISTRY-}webapi
-    restart: always
     build:
       context: .
-      dockerfile: Dockerfile-WebApi
+      dockerfile: WebApi/Dockerfile
     ports:
-     - "8080:8080"
      - "8081:8081"
     depends_on:
      - sqlserver
@@ -15,9 +14,7 @@ services:
       - docker-network
 
   sqlserver:
-    #container_name: sqlserver-container
     image: "mcr.microsoft.com/mssql/server:2019-latest"
-    restart: always
     environment:
       SA_PASSWORD: "Password#2024"
       ACCEPT_EULA: "Y"
@@ -29,9 +26,7 @@ services:
       - docker-network
 
   prometheus:
-    #container_name: prometheus-container
     image: prom/prometheus
-    restart: always
     user: root
     hostname: prometheus
     volumes:
@@ -46,9 +41,7 @@ services:
       - docker-network
 
   grafana:
-    #container_name: grafana-container
     image: grafana/grafana
-    restart: always
     hostname: grafana
     environment:
       -  GF_SECURITY_ADMIN_PASSWORD=admin

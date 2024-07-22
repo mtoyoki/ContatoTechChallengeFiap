@@ -1,32 +1,34 @@
-﻿using FluentAssertions.Common;
-using Infrastructure.Context;
+﻿using Infrastructure.Context;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
+using Xunit;
 
 namespace WebApi.Tests
 {
-    public abstract class ControllerBaseTest
+    public abstract class ControllerBaseTest : IClassFixture<WebApplicationFactory<Program>>
     {
         protected readonly HttpClient _httpClient;
         private readonly IServiceProvider _serviceProvider;
 
         public ControllerBaseTest()
         {
-            var _webApplicationFactory = new WebApplicationFactory<Startup>().WithWebHostBuilder(builder =>
+            var _webApplicationFactory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
             {
                 // Acessa arquivo de configuração
                 var configuration = new ConfigurationBuilder()
                     .AddJsonFile("appsettings.json")
-                    .Build();                
+                    .Build();
 
                 builder.ConfigureServices(services =>
                 {
                     var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
                     services.Remove(descriptor);
-                    services.AddDbContext<ApplicationDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("ConnectionStringTest")); });
+                    services.AddDbContext<ApplicationDbContext>(options =>
+                        {
+                            options.UseSqlServer(configuration.GetConnectionString("ConnectionStringTest"));
+                        });
                 });
             });
 
