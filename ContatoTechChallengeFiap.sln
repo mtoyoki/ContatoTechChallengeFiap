@@ -17,13 +17,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IoC", "IoC\IoC.csproj", "{8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A46EB392-FA43-48E6-8DF4-4A3C501C22BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Tests", "Application.Tests\Application.Tests.csproj", "{C83616A2-E274-4662-B710-601A4762B809}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Tests", "Application.Tests\Application.Tests.csproj", "{C83616A2-E274-4662-B710-601A4762B809}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Tests", "Domain.Tests\Domain.Tests.csproj", "{56784580-76EA-48A7-B2C1-92B05AA2FB7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Tests", "Domain.Tests\Domain.Tests.csproj", "{56784580-76EA-48A7-B2C1-92B05AA2FB7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Tests", "WebApi.Tests\WebApi.Tests.csproj", "{43EE31ED-8DBC-41AC-A43B-631AF756FE66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Tests", "WebApi.Tests\WebApi.Tests.csproj", "{43EE31ED-8DBC-41AC-A43B-631AF756FE66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Tests", "Shared.Tests\Shared.Tests.csproj", "{1C26E0CF-EC15-46B0-9E7B-A3902C5B6B16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Tests", "Shared.Tests\Shared.Tests.csproj", "{1C26E0CF-EC15-46B0-9E7B-A3902C5B6B16}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{09F065D8-B003-4D03-B971-6D2AA1F4BD52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{1C26E0CF-EC15-46B0-9E7B-A3902C5B6B16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C26E0CF-EC15-46B0-9E7B-A3902C5B6B16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C26E0CF-EC15-46B0-9E7B-A3902C5B6B16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09F065D8-B003-4D03-B971-6D2AA1F4BD52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09F065D8-B003-4D03-B971-6D2AA1F4BD52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09F065D8-B003-4D03-B971-6D2AA1F4BD52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09F065D8-B003-4D03-B971-6D2AA1F4BD52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

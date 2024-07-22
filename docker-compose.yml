@@ -1,0 +1,60 @@
+services:
+  webapi:
+    container_name: docker-webapi-container
+    image: ${DOCKER_REGISTRY-}webapi
+    build:
+      context: .
+      dockerfile: WebApi/Dockerfile
+    ports:
+     - "8080:8080"
+     - "8081:8081"
+    depends_on:
+     - sqlserver
+    networks:
+      - metrics
+
+  sqlserver:
+    container_name: docker-sqlserver-container
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    environment:
+      SA_PASSWORD: "Password#2024"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - C:\Dados\volumes\mssql:/var/opt/mssql/data
+    ports:
+      - "1433:1433"
+    networks:
+      - metrics
+
+  prometheus:
+    image: prom/prometheus
+    user: root
+    container_name: prometheus
+    hostname: prometheus
+    restart: unless-stopped
+    volumes:
+      - C:\Dados\volumes\prometheus\config:/etc/prometheus
+      - C:\Dados\volumes\prometheus\data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    ports:
+      - 9090:9090
+    networks:
+      - metrics
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    hostname: grafana
+    environment:
+      -  GF_SECURITY_ADMIN_PASSWORD=admin
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    networks:
+      - metrics
+
+networks:
+  metrics:
+    driver: bridge

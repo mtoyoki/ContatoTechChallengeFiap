@@ -1,4 +1,5 @@
-﻿using IoC;
+﻿using Infrastructure.Context;
+using IoC;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -49,12 +50,16 @@ namespace WebApi
 
             app.UseRouting();
 
+            app.UseHttpMetrics();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            DatabaseManagementService.MigrationInitialisation(app);
         }
     }
 }
