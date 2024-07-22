@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Context;
 using IoC;
 using Microsoft.OpenApi.Models;
+using Prometheus;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace WebApi
@@ -57,6 +58,7 @@ namespace WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapMetrics();
             });
 
             DatabaseManagementService.MigrationInitialisation(app);
