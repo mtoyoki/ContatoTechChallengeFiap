@@ -1,6 +1,8 @@
-﻿using Application.Contato;
+﻿using Application.Handlers.Contato.Queue;
+using Core.Queues;
 using Domain.Commands.Contato.Validators;
 using Domain.Entities;
+using Domain.Events.Contato;
 using Domain.Repositories;
 using Moq;
 using Shared.Tests.Builders.Commands;
@@ -11,12 +13,14 @@ namespace Application.Tests.Contato.CommandHandlers
     {
         private readonly Mock<IContatoRepository> _contatoRepository;
         private readonly Mock<IRegiaoRepository> _regiaoRepository;
-        private readonly CreateContatoCommandHandler _createContatoCommandHandler;
+        private readonly Mock<IQueue<ContatoCreateEventMsg>> _eventPublisher;
+        private readonly ContatoCreateInQueueCommandHandler _createContatoCommandHandler;
 
         public CreateContatoCommandHandlerTest()
         {
             // Mock Contato Repository
             _contatoRepository = new Mock<IContatoRepository>();
+            _eventPublisher = new Mock<IQueue<ContatoCreateEventMsg>>();
 
             // Mock Regiao Repository
             _regiaoRepository = new Mock<IRegiaoRepository>();
@@ -27,10 +31,10 @@ namespace Application.Tests.Contato.CommandHandlers
                              .Returns(regiaoMock);
 
             // Create CommandValidator and CommandHandler
-            var createContatoCommandValidator = new CreateContatoCommandValidator(_regiaoRepository.Object);
+            var createContatoCommandValidator = new ContatoCreateCommandValidator(_regiaoRepository.Object);
 
-            _createContatoCommandHandler = new CreateContatoCommandHandler(createContatoCommandValidator,
-                                                                           _contatoRepository.Object);
+            _createContatoCommandHandler = new ContatoCreateInQueueCommandHandler(createContatoCommandValidator,
+                                                                           _eventPublisher.Object);
         }
 
         [Fact]

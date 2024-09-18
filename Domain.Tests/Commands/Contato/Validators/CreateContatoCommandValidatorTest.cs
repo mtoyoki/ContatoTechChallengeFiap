@@ -9,7 +9,7 @@ namespace Domain.Tests.Commands.Contato.Validators
     public class CreateContatoCommandValidatorTest
     {
         private readonly Mock<IRegiaoRepository> _regiaoRepositoryMock;
-        private readonly CreateContatoCommandValidator _validator;
+        private readonly ContatoCreateCommandValidator _validator;
 
         public CreateContatoCommandValidatorTest()
         {
@@ -20,7 +20,7 @@ namespace Domain.Tests.Commands.Contato.Validators
             _regiaoRepositoryMock.Setup(r => r.GetById(regiaoMock.Id))
                                  .Returns(regiaoMock);
 
-            _validator = new CreateContatoCommandValidator(_regiaoRepositoryMock.Object);
+            _validator = new ContatoCreateCommandValidator(_regiaoRepositoryMock.Object);
 
         }
 

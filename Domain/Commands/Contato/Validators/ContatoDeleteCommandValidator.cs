@@ -1,17 +1,18 @@
-﻿using Domain.Repositories;
+﻿using Domain.Commands.Contato;
+using Domain.Repositories;
 using FluentValidation;
 
 namespace Domain.Commands.Contato.Validators
 {
-    public class DeleteContatoCommandValidator : AbstractValidator<DeleteContatoCommand>
+    public class ContatoDeleteCommandValidator : AbstractValidator<ContatoDeleteCommand>
     {
         private readonly IContatoRepository _contatoRepository;
 
-        public DeleteContatoCommandValidator(IContatoRepository contatoRepository)
+        public ContatoDeleteCommandValidator(IContatoRepository contatoRepository)
         {
             _contatoRepository = contatoRepository;
 
-            ValidateExists();            
+            ValidateExists();
         }
 
         private void ValidateExists()
@@ -21,7 +22,7 @@ namespace Domain.Commands.Contato.Validators
                 .WithMessage("Preenchimento do Id é obrigatório");
 
             RuleFor(command => command.Id)
-                .Must(id=> _contatoRepository.GetById(id) != null)
+                .Must(id => _contatoRepository.GetById(id) != null)
                 .WithSeverity(Severity.Error)
                 .WithMessage("Não foi possível encontrar o Contato");
         }

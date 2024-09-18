@@ -1,13 +1,14 @@
-﻿using Domain.Repositories;
+﻿using Domain.Commands.Contato;
+using Domain.Repositories;
 using FluentValidation;
 
 namespace Domain.Commands.Contato.Validators
 {
-    public class UpdateContatoCommandValidator : ContatoCommandValidatorBase<UpdateContatoCommand>
+    public class ContatoUpdateCommandValidator : ContatoCommandValidatorBase<ContatoUpdateCommand>
     {
         private readonly IContatoRepository _contatoRepository;
 
-        public UpdateContatoCommandValidator(IContatoRepository contatoRepository, IRegiaoRepository regiaoRepository) : base(regiaoRepository)
+        public ContatoUpdateCommandValidator(IContatoRepository contatoRepository, IRegiaoRepository regiaoRepository) : base(regiaoRepository)
         {
             _contatoRepository = contatoRepository;
 

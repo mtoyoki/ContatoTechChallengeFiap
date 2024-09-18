@@ -1,4 +1,4 @@
-﻿using Application.Contato;
+﻿using Application.Handlers.Contato.Db;
 using Domain.Queries.Contato;
 using Domain.Repositories;
 using Moq;
@@ -9,12 +9,12 @@ namespace Application.Tests.Contato.Queries
     public class ContatoQueriesTest
     {
         private readonly Mock<IContatoRepository> _contatoRepositoryMock;
-        private readonly ContatoQueries _contatoQueries;
+        private readonly ContatoQueriesHandlerHandler _contatoQueries;
 
         public ContatoQueriesTest()
         {
             _contatoRepositoryMock = new Mock<IContatoRepository>();
-            _contatoQueries = new ContatoQueries(_contatoRepositoryMock.Object);
+            _contatoQueries = new ContatoQueriesHandlerHandler(_contatoRepositoryMock.Object);
         }
 
         [Fact]

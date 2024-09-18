@@ -4,21 +4,21 @@ using Domain.Commands.Contato;
 using Domain.Repositories;
 using FluentValidation;
 
-namespace Application.Contato
+namespace Application.Handlers.Contato.Db
 {
-    public class UpdateContatoCommandHandler : CommandHandlerBase, ICommandHandler<UpdateContatoCommand>
+    public class ContatoUpdateCommandHandler : CommandHandlerBase, ICommandHandler<ContatoUpdateCommand>
     {
-        private readonly IValidator<UpdateContatoCommand> _updateContatoCommandValidator;
+        private readonly IValidator<ContatoUpdateCommand> _updateContatoCommandValidator;
         private readonly IContatoRepository _contatoRepository;
 
-        public UpdateContatoCommandHandler(IValidator<UpdateContatoCommand> updateContatoCommandValidator,
+        public ContatoUpdateCommandHandler(IValidator<ContatoUpdateCommand> updateContatoCommandValidator,
                                            IContatoRepository contatoRepository)
         {
             _updateContatoCommandValidator = updateContatoCommandValidator;
             _contatoRepository = contatoRepository;
         }
 
-        public Result Handle(UpdateContatoCommand command)
+        public Result Handle(ContatoUpdateCommand command)
         {
             var validationResult = Validate(command, _updateContatoCommandValidator);
 

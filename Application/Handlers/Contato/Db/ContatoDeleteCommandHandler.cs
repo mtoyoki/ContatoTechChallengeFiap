@@ -3,21 +3,21 @@ using Domain.Commands.Contato;
 using Domain.Repositories;
 using FluentValidation;
 
-namespace Application.Contato
+namespace Application.Handlers.Contato.Db
 {
-    public class DeleteContatoCommandHandler : CommandHandlerBase, ICommandHandler<DeleteContatoCommand>
+    public class ContatoDeleteCommandHandler : CommandHandlerBase, ICommandHandler<ContatoDeleteCommand>
     {
-        private readonly IValidator<DeleteContatoCommand> _validator;
+        private readonly IValidator<ContatoDeleteCommand> _validator;
         private readonly IContatoRepository _contatoRepository;
 
-        public DeleteContatoCommandHandler(IValidator<DeleteContatoCommand> deleteContatoCommandValidator,
+        public ContatoDeleteCommandHandler(IValidator<ContatoDeleteCommand> deleteContatoCommandValidator,
                                            IContatoRepository contatoRepository)
         {
             _validator = deleteContatoCommandValidator;
             _contatoRepository = contatoRepository;
         }
 
-        public Result Handle(DeleteContatoCommand command)
+        public Result Handle(ContatoDeleteCommand command)
         {
             var validationResult = Validate(command, _validator);
 

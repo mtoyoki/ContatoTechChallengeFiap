@@ -1,13 +1,13 @@
 ﻿using Domain.Queries.Contato;
 using Domain.Repositories;
 
-namespace Application.Contato
+namespace Application.Handlers.Contato.Db
 {
-    public class ContatoQueries : IContatoQueries
+    public class ContatoQueriesHandlerHandler : IContatoQueriesHandler
     {
         private readonly IContatoRepository _contatoRepository;
 
-        public ContatoQueries(IContatoRepository contatoRepository)
+        public ContatoQueriesHandlerHandler(IContatoRepository contatoRepository)
         {
             _contatoRepository = contatoRepository;
         }
@@ -23,7 +23,7 @@ namespace Application.Contato
         }
     }
 
-    public interface IContatoQueries
+    public interface IContatoQueriesHandler
     {
         Task<IEnumerable<ContatoQueryResult>> GetAllAsync();
         Task<IEnumerable<ContatoQueryResult>> GetByRegiaoIdAsync(int regiaoId);

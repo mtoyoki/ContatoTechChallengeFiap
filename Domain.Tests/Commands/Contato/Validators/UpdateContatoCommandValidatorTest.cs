@@ -12,7 +12,7 @@ namespace Domain.Tests.Commands.Contato.Validators
         private readonly int _idContatoMock = 1;
         private readonly Mock<IContatoRepository> _contatoRepositoryMock;
         private readonly Mock<IRegiaoRepository> _regiaoRepositoryMock;
-        private readonly UpdateContatoCommandValidator _validator;
+        private readonly ContatoUpdateCommandValidator _validator;
 
         public UpdateContatoCommandValidatorTest()
         {
@@ -36,7 +36,7 @@ namespace Domain.Tests.Commands.Contato.Validators
             _contatoRepositoryMock.Setup(r => r.GetById(_idContatoMock))
                                   .Returns(contatoMock);
 
-            _validator = new UpdateContatoCommandValidator(_contatoRepositoryMock.Object,
+            _validator = new ContatoUpdateCommandValidator(_contatoRepositoryMock.Object,
                                                            _regiaoRepositoryMock.Object);
         }
         

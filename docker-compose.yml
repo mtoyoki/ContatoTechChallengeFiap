@@ -1,6 +1,23 @@
 version: '3.4'
 
 services:
+  worker:
+    build:
+      context: .
+      dockerfile: HostedService.ContatoCreateQueueConsumer/Dockerfile
+    depends_on:
+     - rabbitmq
+    networks:
+      - docker-network
+
+  rabbitmq:
+    image: masstransit/rabbitmq:latest
+    ports:
+     - "5672:5672"
+     - "15672:15672"
+    networks:
+      - docker-network
+
   webapi:
     image: ${DOCKER_REGISTRY-}webapi
     build:

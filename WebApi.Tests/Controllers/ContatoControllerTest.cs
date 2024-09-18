@@ -147,7 +147,7 @@ namespace WebApi.Tests.Controllers
             //Arrange
             Contato contato = CreateContatoEntity();
 
-            var command = new DeleteContatoCommand()
+            var command = new ContatoDeleteCommand()
             {
                 Id = contato.Id,
             };
@@ -167,7 +167,7 @@ namespace WebApi.Tests.Controllers
         public void Delete_Invalid_Empty()
         {
             //Arrange
-            var command = new DeleteContatoCommand()
+            var command = new ContatoDeleteCommand()
             {
             };
 
@@ -184,7 +184,7 @@ namespace WebApi.Tests.Controllers
             //Arrange
             var invalidId = 999;
 
-            var command = new DeleteContatoCommand()
+            var command = new ContatoDeleteCommand()
             {
                 Id = invalidId
             };

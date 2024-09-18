@@ -1,4 +1,4 @@
-﻿using Application.Contato;
+﻿using Application.Handlers.Contato.Db;
 using Domain.Commands.Contato.Validators;
 using Domain.Repositories;
 using Moq;
@@ -10,7 +10,7 @@ namespace Application.Tests.Contato.CommandHandlers
     {
         private readonly Mock<IContatoRepository> _contatoRepository;
         private readonly Mock<IRegiaoRepository> _regiaoRepository;
-        private readonly UpdateContatoCommandHandler _commandHandler;
+        private readonly ContatoUpdateCommandHandler _commandHandler;
 
         private int contatoIdMock = 1;
 
@@ -35,10 +35,10 @@ namespace Application.Tests.Contato.CommandHandlers
                              .Returns(regiaoMock);
 
             // Create CommandValidator and CommandHandler
-            var commandValidator = new UpdateContatoCommandValidator(_contatoRepository.Object,
+            var commandValidator = new ContatoUpdateCommandValidator(_contatoRepository.Object,
                                                                      _regiaoRepository.Object);
 
-            _commandHandler = new UpdateContatoCommandHandler(commandValidator,
+            _commandHandler = new ContatoUpdateCommandHandler(commandValidator,
                                                               _contatoRepository.Object);
         }
 

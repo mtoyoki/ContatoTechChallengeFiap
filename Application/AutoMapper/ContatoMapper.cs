@@ -1,26 +1,39 @@
 ﻿using AutoMapper;
 using Domain.Commands.Contato;
+using Domain.Events.Contato;
 
 namespace Application.AutoMapper
 {
     public class ContatoMapper
     {
-        public static Domain.Entities.Contato CommandToEntity(CreateContatoCommand command)
+        public static ContatoCreateEventMsg CommandToEventMsg(ContatoCreateCommand command)
         {
             var config = new MapperConfiguration(configure =>
             {
-                configure.CreateMap<CreateContatoCommand, Domain.Entities.Contato>();
+                configure.CreateMap<ContatoCreateCommand, ContatoCreateEventMsg>();
+            });
+
+            var mapper = config.CreateMapper();
+            return mapper.Map<ContatoCreateEventMsg>(command);
+        }
+
+
+        public static Domain.Entities.Contato CommandToEntity(ContatoCreateCommand command)
+        {
+            var config = new MapperConfiguration(configure =>
+            {
+                configure.CreateMap<ContatoCreateCommand, Domain.Entities.Contato>();
             });
 
             var mapper = config.CreateMapper();
             return mapper.Map<Domain.Entities.Contato>(command);
         }
 
-        public static Domain.Entities.Contato CommandToEntity(UpdateContatoCommand command)
+        public static Domain.Entities.Contato CommandToEntity(ContatoUpdateCommand command)
         {
             var config = new MapperConfiguration(configure =>
             {
-                configure.CreateMap<UpdateContatoCommand, Domain.Entities.Contato>();
+                configure.CreateMap<ContatoUpdateCommand, Domain.Entities.Contato>();
             });
 
             var mapper = config.CreateMapper();

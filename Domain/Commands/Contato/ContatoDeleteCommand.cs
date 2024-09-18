@@ -2,7 +2,7 @@
 
 namespace Domain.Commands.Contato
 {
-    public class UpdateContatoCommand : ContatoCommandBase
+    public class ContatoDeleteCommand : CommandBase
     {
         public int Id { get; set; }
     }

@@ -10,7 +10,7 @@ namespace Domain.Tests.Commands.Contato.Validators
     {
         private readonly int _idContatoMock = 1;
         private readonly Mock<IContatoRepository> _contatoRepositoryMock;
-        private readonly DeleteContatoCommandValidator _validator;
+        private readonly ContatoDeleteCommandValidator _validator;
 
         public DeleteContatoCommandValidatorTest()
         {
@@ -24,7 +24,7 @@ namespace Domain.Tests.Commands.Contato.Validators
             _contatoRepositoryMock.Setup(r => r.GetById(_idContatoMock))
                                   .Returns(contatoMock);
 
-            _validator = new DeleteContatoCommandValidator(_contatoRepositoryMock.Object);
+            _validator = new ContatoDeleteCommandValidator(_contatoRepositoryMock.Object);
         }
         
         [Fact]

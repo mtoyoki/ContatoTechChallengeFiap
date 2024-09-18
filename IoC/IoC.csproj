@@ -11,10 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Infra.Event.Publisher\Infra.EventPublisher.csproj" />
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\Infra.Event.Publisher\Infra.EventPublisher.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infra.Data.csproj" />
   </ItemGroup>
 
 </Project>

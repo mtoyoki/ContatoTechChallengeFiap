@@ -1,4 +1,5 @@
-﻿using Domain.Repositories;
+﻿using Domain.Commands.Contato;
+using Domain.Repositories;
 using FluentValidation;
 using FluentValidation.Validators;
 using System.Text.RegularExpressions;
@@ -16,7 +17,7 @@ namespace Domain.Commands.Contato.Validators
             ValidateNome();
             ValidateEmail();
             ValidateTelefone();
-            ValidateRegionId();
+            //ValidateRegionId();
         }
 
         private void ValidateNome()
@@ -39,7 +40,7 @@ namespace Domain.Commands.Contato.Validators
                 .WithMessage("Preenchimento do E-mail é obrigatório");
 
             RuleFor(command => command.Email)
-                .Must(email => EmailRegex.IsMatch(email))                
+                .Must(email => EmailRegex.IsMatch(email))
                 .WithMessage("E-mail inválido");
 
         }

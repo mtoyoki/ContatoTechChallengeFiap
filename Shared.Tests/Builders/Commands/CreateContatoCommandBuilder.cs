@@ -53,9 +53,9 @@ namespace Shared.Tests.Builders.Commands
         }
 
 
-        public CreateContatoCommand Build()
+        public ContatoCreateCommand Build()
         {
-            var command = new CreateContatoCommand()
+            var command = new ContatoCreateCommand()
             {
                 Nome = this.Nome,
                 Telefone = this.Telefone,

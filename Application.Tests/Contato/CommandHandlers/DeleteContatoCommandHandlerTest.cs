@@ -1,4 +1,4 @@
-﻿using Application.Contato;
+﻿using Application.Handlers.Contato.Db;
 using Domain.Commands.Contato;
 using Domain.Commands.Contato.Validators;
 using Domain.Repositories;
@@ -10,7 +10,7 @@ namespace Application.Tests.Contato.CommandHandlers
     public class DeleteContatoCommandHandlerTest
     {
         private readonly Mock<IContatoRepository> _contatoRepository;
-        private readonly DeleteContatoCommandHandler _commandHandler;
+        private readonly ContatoDeleteCommandHandler _commandHandler;
         private int contatoIdMock = 1;
 
         public DeleteContatoCommandHandlerTest()
@@ -27,9 +27,9 @@ namespace Application.Tests.Contato.CommandHandlers
                               .Returns(contatoMock);
 
             // Create CommandValidator and CommandHandler
-            var commandValidator = new DeleteContatoCommandValidator(_contatoRepository.Object);
+            var commandValidator = new ContatoDeleteCommandValidator(_contatoRepository.Object);
 
-            _commandHandler = new DeleteContatoCommandHandler(commandValidator,
+            _commandHandler = new ContatoDeleteCommandHandler(commandValidator,
                                                               _contatoRepository.Object);
         }
 
@@ -37,7 +37,7 @@ namespace Application.Tests.Contato.CommandHandlers
         public void Delete_Command_Valid()
         {
             //Arrange
-            var command = new DeleteContatoCommand
+            var command = new ContatoDeleteCommand
             {
                 Id = contatoIdMock
             };
@@ -57,7 +57,7 @@ namespace Application.Tests.Contato.CommandHandlers
             //Arrange
             var contatoIdInvalid = 999;
 
-            var command = new DeleteContatoCommand
+            var command = new ContatoDeleteCommand
             {
                 Id = contatoIdInvalid
             };

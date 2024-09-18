@@ -52,9 +52,9 @@ namespace Shared.Tests.Builders.Commands
         }
 
 
-        public UpdateContatoCommand Build()
+        public ContatoUpdateCommand Build()
         {
-            var command = new UpdateContatoCommand()
+            var command = new ContatoUpdateCommand()
             {
                 Id = this.Id,
                 Nome = this.Nome,

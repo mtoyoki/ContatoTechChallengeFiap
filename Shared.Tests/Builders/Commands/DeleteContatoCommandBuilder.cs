@@ -25,9 +25,9 @@ namespace Shared.Tests.Builders.Commands
         }
 
 
-        public DeleteContatoCommand Build()
+        public ContatoDeleteCommand Build()
         {
-            var command = new DeleteContatoCommand()
+            var command = new ContatoDeleteCommand()
             {
                 Id = this.Id                
             };

@@ -1,4 +1,4 @@
-﻿using Application.Contato;
+﻿using Application.Handlers.Contato.Db;
 using Core.Commands;
 using Domain.Commands.Contato;
 using Microsoft.AspNetCore.Mvc;
@@ -9,18 +9,18 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class ContatoController : ControllerBase
     {
-        private readonly IContatoQueries _contatoQueries;
-        private readonly ICommandHandler<CreateContatoCommand> _createContatoCommandHandler;
-        private readonly ICommandHandler<UpdateContatoCommand> _updateContatoCommandHandler;
-        private readonly ICommandHandler<DeleteContatoCommand> _deleteContatoCommandHandler;
+        private readonly IContatoQueriesHandler _contatoQueriesHandler;
+        private readonly ICommandHandler<ContatoCreateCommand> _createContatoCommandHandler;
+        private readonly ICommandHandler<ContatoUpdateCommand> _updateContatoCommandHandler;
+        private readonly ICommandHandler<ContatoDeleteCommand> _deleteContatoCommandHandler;
 
 
-        public ContatoController(IContatoQueries contatoQueries,
-                                 ICommandHandler<CreateContatoCommand> createContatoCommandHandler,
-                                 ICommandHandler<UpdateContatoCommand> updateContatoCommandHandler,
-                                 ICommandHandler<DeleteContatoCommand> deleteContatoCommandHandler)
+        public ContatoController(IContatoQueriesHandler contatoQueriesHandler,
+                                 ICommandHandler<ContatoCreateCommand> createContatoCommandHandler,
+                                 ICommandHandler<ContatoUpdateCommand> updateContatoCommandHandler,
+                                 ICommandHandler<ContatoDeleteCommand> deleteContatoCommandHandler)
         {
-            _contatoQueries = contatoQueries;
+            _contatoQueriesHandler = contatoQueriesHandler;
             _createContatoCommandHandler = createContatoCommandHandler;
             _updateContatoCommandHandler = updateContatoCommandHandler;
             _deleteContatoCommandHandler = deleteContatoCommandHandler;
@@ -31,7 +31,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                var contatos = _contatoQueries.GetAllAsync().Result;
+                var contatos = _contatoQueriesHandler.GetAllAsync().Result;
 
                 return Ok(contatos);
             }
@@ -42,7 +42,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] CreateContatoCommand command)
+        public IActionResult Post([FromBody] ContatoCreateCommand command)
         {
             var result = _createContatoCommandHandler.Handle(command);
 
@@ -53,7 +53,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] UpdateContatoCommand command)
+        public IActionResult Put([FromBody] ContatoUpdateCommand command)
         {
             var result = _updateContatoCommandHandler.Handle(command);
 
@@ -64,7 +64,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromBody] DeleteContatoCommand command)
+        public IActionResult Delete([FromBody] ContatoDeleteCommand command)
         {
             var result = _deleteContatoCommandHandler.Handle(command);
 
@@ -79,7 +79,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                var contatos = _contatoQueries.GetByRegiaoIdAsync(regiaoId).Result;
+                var contatos = _contatoQueriesHandler.GetByRegiaoIdAsync(regiaoId).Result;
 
                 if (contatos == null) return NotFound();
 

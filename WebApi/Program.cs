@@ -5,6 +5,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Metrics;
 using WebApi;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,9 +20,21 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
-builder.Services.Register();
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
+builder.Services.ConfigureDependencyInjection();
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(builder.Configuration.GetSection("RabbitMQ")["Host"], "/",h =>
+        {
+            h.Username(builder.Configuration.GetSection("RabbitMQ")["User"] ?? string.Empty);
+            h.Password(builder.Configuration.GetSection("RabbitMQ")["Password"] ?? string.Empty);
+        });
+        cfg.ConfigureEndpoints(context);
+    });
+});
 
 builder.Services.AddOpenTelemetry().WithMetrics(builder =>
 {
