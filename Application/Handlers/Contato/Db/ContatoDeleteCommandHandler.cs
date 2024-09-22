@@ -2,6 +2,7 @@
 using Domain.Commands.Contato;
 using Domain.Repositories;
 using FluentValidation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.Handlers.Contato.Db
 {
@@ -19,7 +20,8 @@ namespace Application.Handlers.Contato.Db
 
         public Result Handle(ContatoDeleteCommand command)
         {
-            var validationResult = Validate(command, _validator);
+            var validationResult = _validator.Validate(command);
+            //Notifications = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
 
             if (validationResult.IsValid)
             {

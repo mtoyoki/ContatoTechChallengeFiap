@@ -20,7 +20,8 @@ namespace Application.Handlers.Contato.Db
         public Result Handle(ContatoCreateCommand command)
         {
             var id = 0;
-            var validationResult = Validate(command, _validator);
+            var validationResult = _validator.Validate(command);
+            //Notifications = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
 
             if (validationResult.IsValid)
             {

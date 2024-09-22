@@ -35,11 +35,10 @@ namespace Application.Tests.Contato.CommandHandlers
                              .Returns(regiaoMock);
 
             // Create CommandValidator and CommandHandler
-            var commandValidator = new ContatoUpdateCommandValidator(_contatoRepository.Object,
-                                                                     _regiaoRepository.Object);
+            //var commandValidator = new ContatoUpdateCommandValidator(_contatoRepository.Object, _regiaoRepository.Object);
+            var commandValidator = new ContatoUpdateCommandValidator();
 
-            _commandHandler = new ContatoUpdateCommandHandler(commandValidator,
-                                                              _contatoRepository.Object);
+            _commandHandler = new ContatoUpdateCommandHandler(commandValidator, _contatoRepository.Object);
         }
 
         [Fact]

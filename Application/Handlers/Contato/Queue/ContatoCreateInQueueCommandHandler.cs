@@ -7,7 +7,7 @@ using FluentValidation;
 
 namespace Application.Handlers.Contato.Queue
 {
-    public class ContatoCreateInQueueCommandHandler : CommandHandlerBase, ICommandHandler<ContatoCreateCommand>
+    public class ContatoCreateInQueueCommandHandler : ICommandHandler<ContatoCreateCommand>
     {
         private readonly IValidator<ContatoCreateCommand> _validator;
         private readonly IQueue<ContatoCreateEventMsg> _queue;
@@ -22,14 +22,20 @@ namespace Application.Handlers.Contato.Queue
         {
             var eventMsgGuid = Guid.NewGuid();
 
-            var validationResult = Validate(command, _validator);
+            var validationResult = _validator.Validate(command);
             if (validationResult.IsValid)
             {
                 var eventMsg = ContatoMapper.CommandToEventMsg(command, eventMsgGuid);
                 _queue.PublishEvent(eventMsg);
+                return new Result(true, eventMsgGuid.ToString(), null);
             }
-
-            return Result(eventMsgGuid.ToString());
+            else
+            {
+                var notifications = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                bool success = !notifications.Any();
+                var message = "Erro";
+                return new Result(success, message, notifications);
+            }
         }
     }
 }

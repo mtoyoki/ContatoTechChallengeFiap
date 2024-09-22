@@ -36,8 +36,8 @@ namespace Domain.Tests.Commands.Contato.Validators
             _contatoRepositoryMock.Setup(r => r.GetById(_idContatoMock))
                                   .Returns(contatoMock);
 
-            _validator = new ContatoUpdateCommandValidator(_contatoRepositoryMock.Object,
-                                                           _regiaoRepositoryMock.Object);
+            //_validator = new ContatoUpdateCommandValidator(_contatoRepositoryMock.Object, _regiaoRepositoryMock.Object);
+            _validator = new ContatoUpdateCommandValidator();
         }
         
         [Fact]

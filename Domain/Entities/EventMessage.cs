@@ -14,10 +14,10 @@ namespace Domain.Entities
         {            
         }
 
-        public EventMessage(Guid eventMsgId, string msg, string result, string details)
+        public EventMessage(Guid eventMsgId, string eventMsg, string result, string details)
         {
             EventMsgId = eventMsgId;
-            EventMsg = msg;
+            EventMsg = eventMsg;
             Result = result;
             Details = details;
         }

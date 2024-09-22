@@ -15,7 +15,7 @@ builder.Services.ConfigureDependencyInjection();
 
 builder.Services.AddMassTransit(x =>
 {
-    x.AddConsumer<QueueConsumer>();
+    x.AddConsumer<ContatoCreateQueueConsumer>();
 
     x.UsingRabbitMq((context, cfg) =>
     {
@@ -25,9 +25,9 @@ builder.Services.AddMassTransit(x =>
             h.Password(builder.Configuration.GetSection("RabbitMQ")["Password"] ?? string.Empty);
         });
 
-        cfg.ReceiveEndpoint(QueueNames.ContatoCreateQueue, e =>
+        cfg.ReceiveEndpoint(ContatoCreateQueueConsumer.QueueName, e =>
         {
-            e.ConfigureConsumer<QueueConsumer>(context);
+            e.ConfigureConsumer<ContatoCreateQueueConsumer>(context);
         });
     });
 });

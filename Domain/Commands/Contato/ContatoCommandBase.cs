@@ -3,7 +3,7 @@ using Domain.Entities.Interfaces;
 
 namespace Domain.Commands.Contato
 {
-    public class ContatoCommandBase : CommandBase, IContatoEntity
+    public class ContatoCommandBase : CommandBase
     {
         public string Nome { get; set; }
         public string Telefone { get; set; }
