@@ -1,4 +1,4 @@
-using Infrastructure.Context;
+using Infra.Data.Context;
 using IoC;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;

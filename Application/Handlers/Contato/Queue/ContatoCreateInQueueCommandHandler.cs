@@ -20,16 +20,16 @@ namespace Application.Handlers.Contato.Queue
 
         public Result Handle(ContatoCreateCommand command)
         {
-            var validationResult = Validate(command, _validator);
+            var eventMsgGuid = Guid.NewGuid();
 
+            var validationResult = Validate(command, _validator);
             if (validationResult.IsValid)
             {
-                var eventMsg = ContatoMapper.CommandToEventMsg(command);
-                eventMsg.MessageId = new Guid();
+                var eventMsg = ContatoMapper.CommandToEventMsg(command, eventMsgGuid);
                 _queue.PublishEvent(eventMsg);
             }
 
-            return Result();
+            return Result(eventMsgGuid.ToString());
         }
     }
 }

@@ -19,12 +19,11 @@ namespace Core.Commands
             return validationResult;
         }
 
-
-        public Result Result()
+        public Result Result(string message="")
         {
             var success = !Notifications.Any();
 
-            return new Result(success, Notifications);
+            return new Result(success, message, Notifications);
         }
     }
 }

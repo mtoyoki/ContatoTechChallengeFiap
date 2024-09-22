@@ -20,7 +20,9 @@ namespace Domain.Tests.Commands.Contato.Validators
             _regiaoRepositoryMock.Setup(r => r.GetById(regiaoMock.Id))
                                  .Returns(regiaoMock);
 
-            _validator = new ContatoCreateCommandValidator(_regiaoRepositoryMock.Object);
+            //_validator = new ContatoCreateCommandValidator(_regiaoRepositoryMock.Object);
+            _validator = new ContatoCreateCommandValidator();
+
 
         }
 

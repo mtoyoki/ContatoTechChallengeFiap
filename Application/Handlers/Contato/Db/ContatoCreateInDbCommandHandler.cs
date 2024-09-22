@@ -19,15 +19,17 @@ namespace Application.Handlers.Contato.Db
 
         public Result Handle(ContatoCreateCommand command)
         {
+            var id = 0;
             var validationResult = Validate(command, _validator);
 
             if (validationResult.IsValid)
             {
                 var contato = ContatoMapper.CommandToEntity(command);
                 _repository.Insert(contato);
+                id = contato.Id;
             }
 
-            return Result();
+            return Result(id.ToString());
         }
     }
 }

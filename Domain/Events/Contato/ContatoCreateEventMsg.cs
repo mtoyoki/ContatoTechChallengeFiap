@@ -2,7 +2,7 @@
 {
     public class ContatoCreateEventMsg
     {
-        public Guid MessageId { get; set; }
+        public Guid EventMsgId { get; set; }
         public string Nome { get; set; }
         public string Telefone { get; set; }
         public string Email { get; set; }
@@ -10,7 +10,7 @@
 
         public override string ToString()
         {
-            return $"EvtMsgId: { MessageId } Nome: {Nome}, Telefone: {Telefone}, Email: {Email}, RegiaoId: {RegiaoId}";
+            return $"Nome: {Nome}, Telefone: {Telefone}, Email: {Email}, RegiaoId: {RegiaoId}";
         }
     }
 }

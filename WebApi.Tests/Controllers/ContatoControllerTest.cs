@@ -3,12 +3,12 @@ using Domain.Entities;
 using Domain.Queries.Contato;
 using Domain.Repositories;
 using FluentAssertions;
-using Infrastructure.Repositories;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Shared.Tests.Builders.Commands;
 using System.Net;
 using System.Net.Http.Json;
+using Infra.Data.Repositories;
 using WebApi.Tests.Lib;
 
 

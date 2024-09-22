@@ -1,0 +1,13 @@
+﻿Add-Migration Versao01 -StartupProject Infrastructure
+Add-Migration Versao02 -StartupProject Infrastructure
+
+Update-Database -StartupProject Infrastructure -Connection "Server=localhost\sqlexpress;Database=DB_CONTATO;Trusted_Connection=True;TrustServerCertificate=True"
+
+
+Update-Database -StartupProject Infrastructure -Connection "Server=localhost\sqlexpress;Database=DB_CONTATO;Trusted_Connection=True;TrustServerCertificate=True" -TargetMigration "Versao03"
+
+Add-Migration Versao05 -StartupProject Infra.Data
+
+dotnet ef migrations add Versao05 -StartupProject Infra.Data
+dotnet ef database update --connection "Server=localhost,1433;Database=DB_CONTATO;User=sa;Password=Password#2024;TrustServerCertificate=True"
+dotnet ef migrations remove

@@ -47,7 +47,7 @@ namespace WebApi.Controllers
             var result = _createContatoCommandHandler.Handle(command);
 
             if (result.Success)
-                return Ok(result);
+                return Ok(result.Message);
 
             return BadRequest(result.Errors);
         }

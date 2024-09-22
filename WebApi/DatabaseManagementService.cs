@@ -1,4 +1,4 @@
-﻿using Infrastructure.Context;
+﻿using Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebApi

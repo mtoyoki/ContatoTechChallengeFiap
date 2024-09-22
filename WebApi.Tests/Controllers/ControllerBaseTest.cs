@@ -1,4 +1,4 @@
-﻿using Infrastructure.Context;
+﻿using Infra.Data.Context;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

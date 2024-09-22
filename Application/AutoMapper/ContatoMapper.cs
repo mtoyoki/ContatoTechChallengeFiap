@@ -6,7 +6,7 @@ namespace Application.AutoMapper
 {
     public class ContatoMapper
     {
-        public static ContatoCreateEventMsg CommandToEventMsg(ContatoCreateCommand command)
+        public static ContatoCreateEventMsg CommandToEventMsg(ContatoCreateCommand command, Guid guid)
         {
             var config = new MapperConfiguration(configure =>
             {
@@ -14,7 +14,11 @@ namespace Application.AutoMapper
             });
 
             var mapper = config.CreateMapper();
-            return mapper.Map<ContatoCreateEventMsg>(command);
+            var msg = mapper.Map<ContatoCreateEventMsg>(command);
+            
+            msg.EventMsgId = guid;
+
+            return msg;
         }
 
 

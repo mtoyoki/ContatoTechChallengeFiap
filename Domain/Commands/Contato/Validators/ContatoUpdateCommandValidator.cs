@@ -8,7 +8,7 @@ namespace Domain.Commands.Contato.Validators
     {
         private readonly IContatoRepository _contatoRepository;
 
-        public ContatoUpdateCommandValidator(IContatoRepository contatoRepository, IRegiaoRepository regiaoRepository) : base(regiaoRepository)
+        public ContatoUpdateCommandValidator(IContatoRepository contatoRepository, IRegiaoRepository regiaoRepository) //: base(regiaoRepository)
         {
             _contatoRepository = contatoRepository;
 

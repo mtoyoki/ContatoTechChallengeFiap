@@ -31,7 +31,8 @@ namespace Application.Tests.Contato.CommandHandlers
                              .Returns(regiaoMock);
 
             // Create CommandValidator and CommandHandler
-            var createContatoCommandValidator = new ContatoCreateCommandValidator(_regiaoRepository.Object);
+            //var createContatoCommandValidator = new ContatoCreateCommandValidator(_regiaoRepository.Object);
+            var createContatoCommandValidator = new ContatoCreateCommandValidator();
 
             _createContatoCommandHandler = new ContatoCreateInQueueCommandHandler(createContatoCommandValidator,
                                                                            _eventPublisher.Object);
