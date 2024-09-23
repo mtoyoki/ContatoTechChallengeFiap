@@ -16,7 +16,12 @@ namespace Application.Commands.Contato.Queue
             if (validationResult.IsValid)
             {
                 var eventMsgGuid = Guid.NewGuid();
-                var eventMsg = new ContatoDeleteEventMsg(eventMsgGuid, command.Id);
+                var eventMsg = new ContatoDeleteEventMsg()
+                {
+                    EventMsgId = eventMsgGuid,
+                    Id = command.Id
+                };
+
                 queue.PublishEvent(eventMsg);
 
                 return CommandResultFactory.CreateSuccessResult(eventMsgGuid.ToString());

@@ -33,6 +33,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra.QueuePublisher", "Inf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra.Data", "Infra.Data\Infra.Data.csproj", "{7CCA80F3-4E24-4652-BC37-632DF1D1C17A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.ContatoUpdateQueueConsumer", "Service.ContatoUpdateQueueConsumer\Service.ContatoUpdateQueueConsumer.csproj", "{3DC47A33-7512-4507-B797-E104115069BD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.ContatoDeleteQueueConsumer", "Service.ContatoDeleteQueueConsumer\Service.ContatoDeleteQueueConsumer.csproj", "{C55FF71B-C441-4C1C-95B6-69BC1598150E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +99,14 @@ Global
 		{7CCA80F3-4E24-4652-BC37-632DF1D1C17A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CCA80F3-4E24-4652-BC37-632DF1D1C17A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CCA80F3-4E24-4652-BC37-632DF1D1C17A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DC47A33-7512-4507-B797-E104115069BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DC47A33-7512-4507-B797-E104115069BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DC47A33-7512-4507-B797-E104115069BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DC47A33-7512-4507-B797-E104115069BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C55FF71B-C441-4C1C-95B6-69BC1598150E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C55FF71B-C441-4C1C-95B6-69BC1598150E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C55FF71B-C441-4C1C-95B6-69BC1598150E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C55FF71B-C441-4C1C-95B6-69BC1598150E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

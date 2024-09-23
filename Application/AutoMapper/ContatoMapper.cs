@@ -15,13 +15,12 @@ namespace Application.AutoMapper
 
             var mapper = config.CreateMapper();
             var msg = mapper.Map<ContatoCreateEventMsg>(command);
-            
             msg.EventMsgId = guid;
 
             return msg;
         }
 
-        public static ContatoCreateEventMsg CommandToEventMsg(ContatoUpdateCommand command, Guid guid)
+        public static ContatoUpdateEventMsg CommandToEventMsg(ContatoUpdateCommand command, Guid guid)
         {
             var config = new MapperConfiguration(configure =>
             {
@@ -29,8 +28,7 @@ namespace Application.AutoMapper
             });
 
             var mapper = config.CreateMapper();
-            var msg = mapper.Map<ContatoCreateEventMsg>(command);
-
+            var msg = mapper.Map<ContatoUpdateEventMsg>(command);
             msg.EventMsgId = guid;
 
             return msg;

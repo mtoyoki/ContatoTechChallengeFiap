@@ -1,10 +1,28 @@
 version: '3.4'
 
 services:
-  worker:
+  worker-contato-create-queue-consumer:
     build:
       context: .
       dockerfile: Service.ContatoCreateQueueConsumer/Dockerfile
+    depends_on:
+     - rabbitmq
+    networks:
+      - docker-network
+
+  worker-contato-update-queue-consumer:
+    build:
+      context: .
+      dockerfile: Service.ContatoUpdateQueueConsumer/Dockerfile
+    depends_on:
+     - rabbitmq
+    networks:
+      - docker-network
+
+  worker-contato-delete-queue-consumer:
+    build:
+      context: .
+      dockerfile: Service.ContatoDeleteQueueConsumer/Dockerfile
     depends_on:
      - rabbitmq
     networks:

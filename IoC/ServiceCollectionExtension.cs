@@ -35,10 +35,17 @@ namespace IoC
             services.AddScoped<IContatoQueriesHandler, ContatoQueriesHandlerHandler>();
 
             //Command Handlers
-            services.AddScoped<ICommandHandler<ContatoCreateCommand>, ContatoCreateInQueueCommandHandler>();
-            services.AddScoped<ICommandHandler<ContatoUpdateCommand>, ContatoUpdateInRepositoryCommandHandler>();
-            services.AddScoped<ICommandHandler<ContatoDeleteCommand>, ContatoDeleteInRepositoryCommandHandler>();
 
+            //Fase 2: Grava diretamente no repositório
+            //services.AddScoped<ICommandHandler<ContatoCreateCommand>, ContatoCreateInRepositoryCommandHandler>();
+            //services.AddScoped<ICommandHandler<ContatoUpdateCommand>, ContatoUpdateInRepositoryCommandHandler>();
+            //services.AddScoped<ICommandHandler<ContatoDeleteCommand>, ContatoDeleteInRepositoryCommandHandler>();
+
+            //Fase 3: Grava na fila do RabbitMq
+            services.AddScoped<ICommandHandler<ContatoCreateCommand>, ContatoCreateInQueueCommandHandler>();
+            services.AddScoped<ICommandHandler<ContatoUpdateCommand>, ContatoUpdateInQueueCommandHandler>();
+            services.AddScoped<ICommandHandler<ContatoDeleteCommand>, ContatoDeleteInQueueCommandHandler>();
+            
             //Queue Publishers
             services.AddScoped<IQueue<ContatoCreateEventMsg>, ContatoCreateQueuePublisher>();
             services.AddScoped<IQueue<ContatoUpdateEventMsg>, ContatoUpdateQueuePublisher>();

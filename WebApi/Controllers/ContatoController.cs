@@ -58,7 +58,7 @@ namespace WebApi.Controllers
             var result = _updateContatoCommandHandler.Handle(command);
 
             if (result.Success)
-                return Ok(result);
+                return Ok(result.Message);
 
             return BadRequest(result.Errors);
         }
@@ -69,7 +69,7 @@ namespace WebApi.Controllers
             var result = _deleteContatoCommandHandler.Handle(command);
 
             if (result.Success)
-                return Ok(result);
+                return Ok(result.Message);
 
             return BadRequest(result.Errors);
         }
