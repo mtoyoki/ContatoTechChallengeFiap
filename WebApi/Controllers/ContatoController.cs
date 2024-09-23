@@ -1,4 +1,4 @@
-﻿using Application.Handlers.Contato.Db;
+﻿using Application.Queries.Contato;
 using Core.Commands;
 using Domain.Commands.Contato;
 using Microsoft.AspNetCore.Mvc;

@@ -1,25 +1,18 @@
 ﻿using Domain.Queries.Contato;
 using Domain.Repositories;
 
-namespace Application.Handlers.Contato.Db
+namespace Application.Queries.Contato
 {
-    public class ContatoQueriesHandlerHandler : IContatoQueriesHandler
+    public class ContatoQueriesHandlerHandler(IContatoRepository repository) : IContatoQueriesHandler
     {
-        private readonly IContatoRepository _contatoRepository;
-
-        public ContatoQueriesHandlerHandler(IContatoRepository contatoRepository)
-        {
-            _contatoRepository = contatoRepository;
-        }
-
         public Task<IEnumerable<ContatoQueryResult>> GetAllAsync()
         {
-            return _contatoRepository.GetAllAsync();
+            return repository.GetAllAsync();
         }
 
         public Task<IEnumerable<ContatoQueryResult>> GetByRegiaoIdAsync(int regiaoId)
         {
-            return _contatoRepository.GetByRegiaoIdAsync(regiaoId);
+            return repository.GetByRegiaoIdAsync(regiaoId);
         }
     }
 

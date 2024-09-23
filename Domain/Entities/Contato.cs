@@ -1,9 +1,8 @@
 ﻿using Core.Entities;
-using Domain.Entities.Interfaces;
 
 namespace Domain.Entities
 {
-    public class Contato: BaseEntity, IContatoEntity
+    public class Contato: BaseEntity
     {
         public string Nome { get; set; }
         public string Telefone { get; set; }

@@ -1,16 +1,35 @@
-﻿using Domain.Commands.Contato;
-using Domain.Repositories;
+﻿using Domain.Repositories;
 using FluentValidation;
-using FluentValidation.Results;
 
 namespace Domain.Commands.Contato.Validators
 {
 
-    public class ContatoUpdateCommandValidator : AbstractValidator<ContatoUpdateCommand>
+    public class ContatoUpdateCommandValidator : ContatoCommandValidatorBase<ContatoUpdateCommand>
     {
-        public new ValidationResult Validate(ContatoUpdateCommand instance)
+        private readonly IContatoRepository _contatoRepository;
+
+        public ContatoUpdateCommandValidator(IContatoRepository contatoRepository, IRegiaoRepository regiaoRepository) : base(regiaoRepository)
         {
-            throw new NotImplementedException();
+            _contatoRepository = contatoRepository;
+
+            ValidateId();
+            ValidateExists();
+        }
+
+        private void ValidateId()
+        {
+            RuleFor(command => command.Id)
+                .Must(id => !id.Equals(0))
+                .WithSeverity(Severity.Error)
+                .WithMessage("Preenchimento do Id é obrigatório");
+        }
+
+        private void ValidateExists()
+        {
+            RuleFor(command => command.Id)
+                .Must(id => _contatoRepository.GetById(id) != null)
+                .WithSeverity(Severity.Error)
+                .WithMessage("Não foi possível encontrar o Contato");
         }
     }
 }

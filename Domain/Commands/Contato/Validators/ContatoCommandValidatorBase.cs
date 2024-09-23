@@ -1,12 +1,22 @@
-﻿using Domain.Entities.Interfaces;
+﻿using Domain.Repositories;
 using FluentValidation;
 using System.Text.RegularExpressions;
-using Core.Validators;
 
-namespace Domain.Validators
+namespace Domain.Commands.Contato.Validators
 {
-    public abstract class ContatoValidatorBase<T> : AbstractValidator<T> where T : IContatoEntity
+    public abstract class ContatoCommandValidatorBase<T> : AbstractValidator<T> where T : ContatoCommandBase
     {
+        private readonly IRegiaoRepository _regiaoRepository;
+
+        protected ContatoCommandValidatorBase(IRegiaoRepository regiaoRepository)
+        {
+            _regiaoRepository = regiaoRepository;
+            ValidateNome();
+            ValidateEmail();
+            ValidateTelefone();
+            ValidateRegiaoId();
+        }
+
         protected void ValidateNome()
         {
             RuleFor(contato => contato.Nome)
@@ -50,6 +60,11 @@ namespace Domain.Validators
             RuleFor(contato => contato.RegiaoId)
                 .NotEmpty()
                 .WithMessage("Preenchimento do RegiaoId é obrigatório");
+
+            RuleFor(command => command.RegiaoId)
+                .Must(id => _regiaoRepository.GetById(id) != null)
+                .WithSeverity(Severity.Error)
+                .WithMessage("Número do DDD inválido");
         }
     }
 }

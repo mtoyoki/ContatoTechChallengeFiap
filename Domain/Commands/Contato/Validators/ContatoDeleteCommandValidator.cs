@@ -1,5 +1,4 @@
-﻿using Domain.Commands.Contato;
-using Domain.Repositories;
+﻿using Domain.Repositories;
 using FluentValidation;
 
 namespace Domain.Commands.Contato.Validators

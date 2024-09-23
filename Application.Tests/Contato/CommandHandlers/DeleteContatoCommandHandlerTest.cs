@@ -1,16 +1,17 @@
-﻿using Application.Handlers.Contato.Db;
+﻿using Application.Commands.Contato.Repository;
 using Domain.Commands.Contato;
 using Domain.Commands.Contato.Validators;
 using Domain.Repositories;
 using Moq;
 using Shared.Tests.Builders.Commands;
+using Shared.Tests.Builders.Entities;
 
 namespace Application.Tests.Contato.CommandHandlers
 {
     public class DeleteContatoCommandHandlerTest
     {
         private readonly Mock<IContatoRepository> _contatoRepository;
-        private readonly ContatoDeleteCommandHandler _commandHandler;
+        private readonly ContatoDeleteInRepositoryCommandHandler _commandHandler;
         private int contatoIdMock = 1;
 
         public DeleteContatoCommandHandlerTest()
@@ -29,7 +30,7 @@ namespace Application.Tests.Contato.CommandHandlers
             // Create CommandValidator and CommandHandler
             var commandValidator = new ContatoDeleteCommandValidator(_contatoRepository.Object);
 
-            _commandHandler = new ContatoDeleteCommandHandler(commandValidator,
+            _commandHandler = new ContatoDeleteInRepositoryCommandHandler(commandValidator,
                                                               _contatoRepository.Object);
         }
 

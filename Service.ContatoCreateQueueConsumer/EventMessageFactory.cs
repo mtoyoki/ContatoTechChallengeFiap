@@ -17,7 +17,7 @@ namespace Service.ContatoCreateQueueConsumer
             return CreateMessage(eventMsg, SuccessMessage, contato.Id.ToString());
         }
 
-        public static EventMessage CreateErrorMessage(ContatoCreateEventMsg eventMsg, string errors)
+        public static EventMessage CreateErrorMessage(ContatoCreateEventMsg eventMsg, string? errors)
         {
             if (eventMsg == null) throw new ArgumentNullException(nameof(eventMsg));
             if (string.IsNullOrEmpty(errors)) throw new ArgumentNullException(nameof(errors));
@@ -33,7 +33,7 @@ namespace Service.ContatoCreateQueueConsumer
             return CreateMessage(eventMsg, ExceptionMessage, ex.Message);
         }
 
-        private static EventMessage CreateMessage(ContatoCreateEventMsg eventMsg, string result, string details)
+        private static EventMessage CreateMessage(ContatoCreateEventMsg eventMsg, string result, string? details)
         {
             return new EventMessage(
                 eventMsg.EventMsgId,

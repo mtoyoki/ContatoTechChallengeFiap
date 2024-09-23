@@ -21,6 +21,21 @@ namespace Application.AutoMapper
             return msg;
         }
 
+        public static ContatoCreateEventMsg CommandToEventMsg(ContatoUpdateCommand command, Guid guid)
+        {
+            var config = new MapperConfiguration(configure =>
+            {
+                configure.CreateMap<ContatoUpdateCommand, ContatoUpdateEventMsg>();
+            });
+
+            var mapper = config.CreateMapper();
+            var msg = mapper.Map<ContatoCreateEventMsg>(command);
+
+            msg.EventMsgId = guid;
+
+            return msg;
+        }
+
 
         public static Domain.Entities.Contato CommandToEntity(ContatoCreateCommand command)
         {

@@ -1,12 +1,10 @@
-﻿using Application.Handlers.Contato.Db;
-using Application.Handlers.Contato.Queue;
+﻿using Application.Commands.Contato.Queue;
+using Application.Commands.Contato.Repository;
+using Application.Queries.Contato;
 using Core.Commands;
 using Core.Queues;
-using Core.Validators;
 using Domain.Commands.Contato;
 using Domain.Commands.Contato.Validators;
-using Domain.Entities;
-using Domain.Entities.Validators;
 using Domain.Events.Contato;
 using Domain.Repositories;
 using FluentValidation;
@@ -33,19 +31,18 @@ namespace IoC
             services.AddScoped<IValidator<ContatoUpdateCommand>, ContatoUpdateCommandValidator>();
             services.AddScoped<IValidator<ContatoDeleteCommand>, ContatoDeleteCommandValidator>();
 
-            //Entity Validators
-            services.AddScoped<IEntityValidator<Contato>, ContatoEntityValidator>();
-
-            //Command Handlers
-            services.AddScoped<ICommandHandler<ContatoCreateCommand>, ContatoCreateInQueueCommandHandler>();
-            services.AddScoped<ICommandHandler<ContatoUpdateCommand>, ContatoUpdateCommandHandler>();
-            services.AddScoped<ICommandHandler<ContatoDeleteCommand>, ContatoDeleteCommandHandler>();
-
             //Queries
             services.AddScoped<IContatoQueriesHandler, ContatoQueriesHandlerHandler>();
 
+            //Command Handlers
+            services.AddScoped<ICommandHandler<ContatoCreateCommand>, ContatoCreateInQueueCommandHandler>();
+            services.AddScoped<ICommandHandler<ContatoUpdateCommand>, ContatoUpdateInRepositoryCommandHandler>();
+            services.AddScoped<ICommandHandler<ContatoDeleteCommand>, ContatoDeleteInRepositoryCommandHandler>();
+
             //Queue Publishers
             services.AddScoped<IQueue<ContatoCreateEventMsg>, ContatoCreateQueuePublisher>();
+            services.AddScoped<IQueue<ContatoUpdateEventMsg>, ContatoUpdateQueuePublisher>();
+            services.AddScoped<IQueue<ContatoDeleteEventMsg>, ContatoDeleteQueuePublisher>();
         }
 
         public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)

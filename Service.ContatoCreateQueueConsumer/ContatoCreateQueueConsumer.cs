@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Core.Validators;
 using Domain.Entities;
 using Domain.Events.Contato;
 using Domain.Repositories;
@@ -8,10 +7,7 @@ using Shared;
 
 namespace Service.ContatoCreateQueueConsumer
 {
-    public class ContatoCreateQueueConsumer(
-        IContatoRepository contatoRepository,
-        IEventMessageRepository messageRepository,
-        IEntityValidator<Contato> contatoValidator) : IConsumer<ContatoCreateEventMsg>
+    public class ContatoCreateQueueConsumer(IContatoRepository contatoRepository, IEventMessageRepository messageRepository) : IConsumer<ContatoCreateEventMsg>
     {
         public const string QueueName = QueueNames.ContatoCreateQueue;
 
@@ -22,22 +18,10 @@ namespace Service.ContatoCreateQueueConsumer
             try
             {
                 var contato = MapEventMsgToEntity(eventMsg);
+                contatoRepository.Insert(contato);
 
-                //TODO: Validador fake
-                var validationResult = contatoValidator.ValidateInsert(contato);
-
-                if (validationResult.IsValid)
-                {
-                    contatoRepository.Insert(contato);
-
-                    var message = EventMessageFactory.CreateSuccessMessage(eventMsg, contato);
-                    messageRepository.Insert(message);
-                }
-                else
-                {
-                    var message = EventMessageFactory.CreateErrorMessage(eventMsg, validationResult.Errors.ToString());
-                    messageRepository.Insert(message);
-                }
+                var message = EventMessageFactory.CreateSuccessMessage(eventMsg, contato);
+                messageRepository.Insert(message);
             }
             catch (Exception e)
             {

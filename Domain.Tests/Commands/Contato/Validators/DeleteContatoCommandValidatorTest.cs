@@ -3,6 +3,7 @@ using Domain.Repositories;
 using FluentAssertions;
 using Moq;
 using Shared.Tests.Builders.Commands;
+using Shared.Tests.Builders.Entities;
 
 namespace Domain.Tests.Commands.Contato.Validators
 {

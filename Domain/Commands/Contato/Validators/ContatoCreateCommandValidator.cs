@@ -1,17 +1,12 @@
-﻿using Domain.Commands.Contato;
-using Domain.Entities.Interfaces;
-using Domain.Repositories;
-using FluentValidation;
-using FluentValidation.Results;
+﻿using Domain.Repositories;
 
 namespace Domain.Commands.Contato.Validators
 {
-    public class ContatoCreateCommandValidator : AbstractValidator<ContatoCreateCommand>
+    public class ContatoCreateCommandValidator : ContatoCommandValidatorBase<ContatoCreateCommand>
     {
-        public new ValidationResult Validate(ContatoCreateCommand instance)
+
+        public ContatoCreateCommandValidator(IRegiaoRepository regiaoRepository) : base(regiaoRepository)
         {
-            
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Core.Commands;
-using Domain.Entities.Interfaces;
 
 namespace Domain.Commands.Contato
 {

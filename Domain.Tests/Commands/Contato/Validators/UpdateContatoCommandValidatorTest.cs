@@ -4,6 +4,7 @@ using FluentAssertions;
 using FluentValidation;
 using Moq;
 using Shared.Tests.Builders.Commands;
+using Shared.Tests.Builders.Entities;
 
 namespace Domain.Tests.Commands.Contato.Validators
 {
@@ -36,8 +37,7 @@ namespace Domain.Tests.Commands.Contato.Validators
             _contatoRepositoryMock.Setup(r => r.GetById(_idContatoMock))
                                   .Returns(contatoMock);
 
-            //_validator = new ContatoUpdateCommandValidator(_contatoRepositoryMock.Object, _regiaoRepositoryMock.Object);
-            _validator = new ContatoUpdateCommandValidator();
+            _validator = new ContatoUpdateCommandValidator(_contatoRepositoryMock.Object, _regiaoRepositoryMock.Object);
         }
         
         [Fact]

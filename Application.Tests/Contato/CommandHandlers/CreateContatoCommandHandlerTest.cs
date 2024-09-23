@@ -1,7 +1,6 @@
-﻿using Application.Handlers.Contato.Queue;
+﻿using Application.Commands.Contato.Queue;
 using Core.Queues;
 using Domain.Commands.Contato.Validators;
-using Domain.Entities;
 using Domain.Events.Contato;
 using Domain.Repositories;
 using Moq;
@@ -31,11 +30,9 @@ namespace Application.Tests.Contato.CommandHandlers
                              .Returns(regiaoMock);
 
             // Create CommandValidator and CommandHandler
-            //var createContatoCommandValidator = new ContatoCreateCommandValidator(_regiaoRepository.Object);
-            var createContatoCommandValidator = new ContatoCreateCommandValidator();
+            var createContatoCommandValidator = new ContatoCreateCommandValidator(_regiaoRepository.Object);
 
-            _createContatoCommandHandler = new ContatoCreateInQueueCommandHandler(createContatoCommandValidator,
-                                                                           _eventPublisher.Object);
+            _createContatoCommandHandler = new ContatoCreateInQueueCommandHandler(createContatoCommandValidator, _eventPublisher.Object);
         }
 
         [Fact]

@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 
-namespace Shared.Tests.Builders.Commands
+namespace Shared.Tests.Builders.Entities
 {
     public class ContatoBuilder
     {

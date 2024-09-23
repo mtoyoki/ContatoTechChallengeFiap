@@ -9,6 +9,7 @@ using Shared.Tests.Builders.Commands;
 using System.Net;
 using System.Net.Http.Json;
 using Infra.Data.Repositories;
+using Shared.Tests.Builders.Entities;
 using WebApi.Tests.Lib;
 
 

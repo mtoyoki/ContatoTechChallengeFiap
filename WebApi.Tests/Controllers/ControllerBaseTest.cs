@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace WebApi.Tests
+namespace WebApi.Tests.Controllers
 {
     public abstract class ControllerBaseTest : IClassFixture<WebApplicationFactory<Program>>
     {

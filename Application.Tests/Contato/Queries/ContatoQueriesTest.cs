@@ -1,4 +1,4 @@
-﻿using Application.Handlers.Contato.Db;
+﻿using Application.Queries.Contato;
 using Domain.Queries.Contato;
 using Domain.Repositories;
 using Moq;

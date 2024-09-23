@@ -1,11 +1,11 @@
 using Infra.Data.Context;
 using IoC;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerUI;
-using Microsoft.EntityFrameworkCore;
-using OpenTelemetry.Metrics;
-using WebApi;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using OpenTelemetry.Metrics;
+using Swashbuckle.AspNetCore.SwaggerUI;
+using WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,4 +75,7 @@ app.Run();
 DatabaseManagementService.MigrationInitialisation(app);
 
 
-public partial class Program { }
+namespace WebApi
+{
+    public partial class Program { }
+}
