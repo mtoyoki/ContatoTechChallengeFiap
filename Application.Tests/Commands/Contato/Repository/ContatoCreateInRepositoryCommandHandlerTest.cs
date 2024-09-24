@@ -1,25 +1,22 @@
-﻿using Application.Commands.Contato.Queue;
-using Core.Queues;
+﻿using Application.Commands.Contato.Repository;
 using Domain.Commands.Contato.Validators;
-using Domain.Events.Contato;
 using Domain.Repositories;
 using Moq;
 using Shared.Tests.Builders.Commands;
 
-namespace Application.Tests.Contato.CommandHandlers
+namespace Application.Tests.Commands.Contato.CommandHandlers
 {
-    public class CreateContatoCommandHandlerTest
+    public class ContatoCreateInRepositoryCommandHandlerTest
     {
         private readonly Mock<IContatoRepository> _contatoRepository;
         private readonly Mock<IRegiaoRepository> _regiaoRepository;
-        private readonly Mock<IQueue<ContatoCreateEventMsg>> _eventPublisher;
-        private readonly ContatoCreateInQueueCommandHandler _createContatoCommandHandler;
+        private readonly ContatoCreateInRepositoryCommandHandler _commandHandler;
 
-        public CreateContatoCommandHandlerTest()
+        public ContatoCreateInRepositoryCommandHandlerTest()
         {
             // Mock Contato Repository
             _contatoRepository = new Mock<IContatoRepository>();
-            _eventPublisher = new Mock<IQueue<ContatoCreateEventMsg>>();
+            //_eventPublisher = new Mock<IQueue<ContatoCreateEventMsg>>();
 
             // Mock Regiao Repository
             _regiaoRepository = new Mock<IRegiaoRepository>();
@@ -30,9 +27,9 @@ namespace Application.Tests.Contato.CommandHandlers
                              .Returns(regiaoMock);
 
             // Create CommandValidator and CommandHandler
-            var createContatoCommandValidator = new ContatoCreateCommandValidator(_regiaoRepository.Object);
+            var validator = new ContatoCreateCommandValidator(_regiaoRepository.Object);
 
-            _createContatoCommandHandler = new ContatoCreateInQueueCommandHandler(createContatoCommandValidator, _eventPublisher.Object);
+            _commandHandler = new ContatoCreateInRepositoryCommandHandler(validator, _contatoRepository.Object);
         }
 
         [Fact]
@@ -44,7 +41,7 @@ namespace Application.Tests.Contato.CommandHandlers
                                                         .Build();
 
             //Act
-            var result = _createContatoCommandHandler.Handle(createContatoCommand);
+            var result = _commandHandler.Handle(createContatoCommand);
 
             //Assert
             Assert.True(result.Success);
@@ -61,7 +58,7 @@ namespace Application.Tests.Contato.CommandHandlers
                                                         .Build();
 
             //Act
-            var result = _createContatoCommandHandler.Handle(createContatoCommand);
+            var result = _commandHandler.Handle(createContatoCommand);
 
             //Assert
             Assert.False(result.Success);

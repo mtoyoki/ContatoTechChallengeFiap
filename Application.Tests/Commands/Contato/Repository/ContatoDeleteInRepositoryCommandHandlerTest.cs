@@ -6,15 +6,15 @@ using Moq;
 using Shared.Tests.Builders.Commands;
 using Shared.Tests.Builders.Entities;
 
-namespace Application.Tests.Contato.CommandHandlers
+namespace Application.Tests.Commands.Contato.CommandHandlers
 {
-    public class DeleteContatoCommandHandlerTest
+    public class ContatoDeleteInRepositoryCommandHandlerTest
     {
         private readonly Mock<IContatoRepository> _contatoRepository;
         private readonly ContatoDeleteInRepositoryCommandHandler _commandHandler;
         private int contatoIdMock = 1;
 
-        public DeleteContatoCommandHandlerTest()
+        public ContatoDeleteInRepositoryCommandHandlerTest()
         {
 
             // Mock Contato Repository

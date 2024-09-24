@@ -5,9 +5,9 @@ using Moq;
 using Shared.Tests.Builders.Commands;
 using Shared.Tests.Builders.Entities;
 
-namespace Application.Tests.Contato.CommandHandlers
+namespace Application.Tests.Commands.Contato.CommandHandlers
 {
-    public class UpdateContatoCommandHandlerTest
+    public class ContatoUpdateInRepositoryCommandHandlerTest
     {
         private readonly Mock<IContatoRepository> _contatoRepository;
         private readonly Mock<IRegiaoRepository> _regiaoRepository;
@@ -15,7 +15,7 @@ namespace Application.Tests.Contato.CommandHandlers
 
         private int contatoIdMock = 1;
 
-        public UpdateContatoCommandHandlerTest()
+        public ContatoUpdateInRepositoryCommandHandlerTest()
         {
             // Mock Contato Repository
             _contatoRepository = new Mock<IContatoRepository>();
@@ -37,7 +37,7 @@ namespace Application.Tests.Contato.CommandHandlers
 
             // Create CommandValidator and CommandHandler
             var commandValidator = new ContatoUpdateCommandValidator(_contatoRepository.Object, _regiaoRepository.Object);
-            
+
             _commandHandler = new ContatoUpdateInRepositoryCommandHandler(commandValidator, _contatoRepository.Object);
         }
 

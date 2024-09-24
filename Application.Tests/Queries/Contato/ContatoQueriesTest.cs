@@ -4,7 +4,7 @@ using Domain.Repositories;
 using Moq;
 using Shared.Tests.Builders.Queries;
 
-namespace Application.Tests.Contato.Queries
+namespace Application.Tests.Queries.Contato
 {
     public class ContatoQueriesTest
     {

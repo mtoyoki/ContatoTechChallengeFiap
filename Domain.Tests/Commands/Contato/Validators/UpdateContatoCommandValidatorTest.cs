@@ -61,7 +61,7 @@ namespace Domain.Tests.Commands.Contato.Validators
 
 
         [Fact]
-        public void Id_Invalid()
+        public void Id_Inexistent()
         {
             //Arrange
             var idInvalid = 999;
@@ -76,7 +76,7 @@ namespace Domain.Tests.Commands.Contato.Validators
 
             //Assert
             validationResult.IsValid.Should().BeFalse();
-            validationResult.Errors.Exists(e => e.ErrorMessage == "Não foi possível encontrar o Contato").Should().BeTrue();
+            validationResult.Errors.Exists(e => e.ErrorMessage == "Contato inexistente").Should().BeTrue();
 
         }
 
@@ -268,7 +268,7 @@ namespace Domain.Tests.Commands.Contato.Validators
 
             //Assert
             validationResult.IsValid.Should().BeFalse();
-            validationResult.Errors.Exists(e => e.ErrorMessage == "Preenchimento do DDD é obrigatório").Should().BeTrue();
+            validationResult.Errors.Exists(e => e.ErrorMessage == "Preenchimento do DDD (RegiaoId) é obrigatório").Should().BeTrue();
         }
 
         [Theory]
@@ -288,7 +288,7 @@ namespace Domain.Tests.Commands.Contato.Validators
 
             //Assert
             validationResult.IsValid.Should().BeFalse();
-            validationResult.Errors.Exists(e => e.ErrorMessage == "Número do DDD inválido").Should().BeTrue();
+            validationResult.Errors.Exists(e => e.ErrorMessage == "Número do DDD (RegiaoId) inválido").Should().BeTrue();
         }
 
         [Theory]

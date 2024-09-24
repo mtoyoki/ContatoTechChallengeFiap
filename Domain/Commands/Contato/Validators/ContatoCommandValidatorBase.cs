@@ -59,12 +59,12 @@ namespace Domain.Commands.Contato.Validators
         {
             RuleFor(contato => contato.RegiaoId)
                 .NotEmpty()
-                .WithMessage("Preenchimento do RegiaoId é obrigatório");
+                .WithMessage("Preenchimento do DDD (RegiaoId) é obrigatório");
 
             RuleFor(command => command.RegiaoId)
                 .Must(id => _regiaoRepository.GetById(id) != null)
                 .WithSeverity(Severity.Error)
-                .WithMessage("Número do DDD inválido");
+                .WithMessage("Número do DDD (RegiaoId) inválido");
         }
     }
 }
