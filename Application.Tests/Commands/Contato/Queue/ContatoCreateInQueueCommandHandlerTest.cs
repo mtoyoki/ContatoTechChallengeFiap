@@ -19,13 +19,10 @@ namespace Application.Tests.Commands.Contato.Queue
             // Mock Event Publisher
             _eventPublisher = new Mock<IQueue<ContatoCreateEventMsg>>();
 
-            // Mock Regiao Repository
-            _regiaoRepository = new Mock<IRegiaoRepository>();
-
+            // Mock Repository
             var regiaoMock = new Domain.Entities.Regiao(11, "São Paulo", "SP");
-
-            _regiaoRepository.Setup(r => r.GetById(regiaoMock.Id))
-                             .Returns(regiaoMock);
+            _regiaoRepository = new Mock<IRegiaoRepository>();
+            _regiaoRepository.Setup(r => r.GetById(regiaoMock.Id)).Returns(regiaoMock);
 
             // Create CommandValidator and CommandHandler
             var createContatoCommandValidator = new ContatoCreateCommandValidator(_regiaoRepository.Object);

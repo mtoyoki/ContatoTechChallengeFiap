@@ -1,4 +1,5 @@
 ﻿using Domain.Commands.Contato;
+using System.Security.Cryptography;
 
 namespace Shared.Tests.Builders.Commands
 {
@@ -51,6 +52,15 @@ namespace Shared.Tests.Builders.Commands
             return this;
         }
 
+        public UpdateContatoCommandBuilder Empty()
+        {
+            this.Id = 0;
+            this.Nome = string.Empty;
+            this.Email = string.Empty;
+            this.Telefone = string.Empty;
+            this.RegiaoId = 0;
+            return this;
+        }
 
         public ContatoUpdateCommand Build()
         {
