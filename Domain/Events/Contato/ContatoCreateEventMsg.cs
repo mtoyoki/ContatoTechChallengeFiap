@@ -1,12 +1,15 @@
-﻿namespace Domain.Events.Contato
+﻿using Core.Events;
+
+namespace Domain.Events.Contato
 {
-    public class ContatoCreateEventMsg
+    public class ContatoCreateEventMsg : IEventMsg
     {
         public Guid EventMsgId { get; set; }
         public string Nome { get; set; }
         public string Telefone { get; set; }
         public string Email { get; set; }
         public int RegiaoId { get; set; }
+
 
         public override string ToString()
         {

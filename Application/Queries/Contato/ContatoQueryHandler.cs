@@ -3,11 +3,16 @@ using Domain.Repositories;
 
 namespace Application.Queries.Contato
 {
-    public class ContatoQueriesHandlerHandler(IContatoRepository repository) : IContatoQueriesHandler
+    public class ContatoQueryHandler(IContatoRepository repository) : IContatoQueryHandler
     {
         public Task<IEnumerable<ContatoQueryResult>> GetAllAsync()
         {
             return repository.GetAllAsync();
+        }
+
+        public Task<ContatoQueryResult?> GetByIdAsync(int id)
+        {
+            return repository.GetByIdAsync(id);
         }
 
         public Task<IEnumerable<ContatoQueryResult>> GetByRegiaoIdAsync(int regiaoId)
@@ -16,9 +21,10 @@ namespace Application.Queries.Contato
         }
     }
 
-    public interface IContatoQueriesHandler
+    public interface IContatoQueryHandler
     {
         Task<IEnumerable<ContatoQueryResult>> GetAllAsync();
+        Task<ContatoQueryResult?> GetByIdAsync(int id);
         Task<IEnumerable<ContatoQueryResult>> GetByRegiaoIdAsync(int regiaoId);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Domain.Events.Contato;
+using Domain.Factories;
 using Domain.Repositories;
 using MassTransit;
 using Shared;
@@ -20,7 +21,7 @@ namespace Service.ContatoUpdateQueueConsumer
                 var contato = MapEventMsgToEntity(eventMsg);
                 contatoRepository.Update(contato);
 
-                var message = EventMessageFactory.CreateSuccessMessage(eventMsg, contato);
+                var message = EventMessageFactory.CreateSuccessMessage(eventMsg, $"Contato foi atualizado (id = {contato.Id}) ");
                 messageRepository.Insert(message);
             }
             catch (Exception e)

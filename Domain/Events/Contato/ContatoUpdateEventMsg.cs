@@ -1,6 +1,8 @@
-﻿namespace Domain.Events.Contato
+﻿using Core.Events;
+
+namespace Domain.Events.Contato
 {
-    public class ContatoUpdateEventMsg
+    public class ContatoUpdateEventMsg : IEventMsg
     {
         public Guid EventMsgId { get; set; }
         public int Id { get; set; }

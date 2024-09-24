@@ -1,4 +1,6 @@
-﻿using Domain.Events.Contato;
+﻿using Domain.Entities;
+using Domain.Events.Contato;
+using Domain.Factories;
 using Domain.Repositories;
 using MassTransit;
 using Shared;
@@ -18,7 +20,7 @@ namespace Service.ContatoDeleteQueueConsumer
                 var id = eventMsg.Id;
                 contatoRepository.Delete(id);
 
-                var message = EventMessageFactory.CreateSuccessMessage(eventMsg, id.ToString());
+                var message = EventMessageFactory.CreateSuccessMessage(eventMsg, $"Contato foi excluído (id = {id})");
                 messageRepository.Insert(message);
             }
             catch (Exception e)

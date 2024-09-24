@@ -23,7 +23,7 @@ namespace Domain.Commands.Contato.Validators
             RuleFor(command => command.Id)
                 .Must(id => _contatoRepository.GetById(id) != null)
                 .WithSeverity(Severity.Error)
-                .WithMessage("Não foi possível encontrar o Contato");
+                .WithMessage("Contato inexistente");
         }
     }
 }

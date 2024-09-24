@@ -21,11 +21,21 @@ namespace Infra.Data.Repositories
                                  .ToListAsync();
         }
 
+        public async Task<ContatoQueryResult?> GetByIdAsync(int id)
+        {
+            return await _context.Contato
+                                .Where(c => c.Id == id)
+                                .Include(c => c.Regiao)
+                                .Select(c => ContatoQueryResult(c))
+                                .AsNoTracking()
+                                .FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<ContatoQueryResult>> GetByRegiaoIdAsync(int regiaoId)
         {
             return await _context.Contato
                                  .Where(c => c.RegiaoId == regiaoId)
-                                 .Include(c=> c.Regiao)
+                                 .Include(c => c.Regiao)
                                  .Select(c => ContatoQueryResult(c))
                                  .AsNoTracking()
                                  .ToListAsync();

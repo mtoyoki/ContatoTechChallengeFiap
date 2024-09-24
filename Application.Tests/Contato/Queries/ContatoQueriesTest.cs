@@ -9,12 +9,12 @@ namespace Application.Tests.Contato.Queries
     public class ContatoQueriesTest
     {
         private readonly Mock<IContatoRepository> _contatoRepositoryMock;
-        private readonly ContatoQueriesHandlerHandler _contatoQueries;
+        private readonly ContatoQueryHandler _contatoQueries;
 
         public ContatoQueriesTest()
         {
             _contatoRepositoryMock = new Mock<IContatoRepository>();
-            _contatoQueries = new ContatoQueriesHandlerHandler(_contatoRepositoryMock.Object);
+            _contatoQueries = new ContatoQueryHandler(_contatoRepositoryMock.Object);
         }
 
         [Fact]

@@ -32,7 +32,8 @@ namespace IoC
             services.AddScoped<IValidator<ContatoDeleteCommand>, ContatoDeleteCommandValidator>();
 
             //Queries
-            services.AddScoped<IContatoQueriesHandler, ContatoQueriesHandlerHandler>();
+            services.AddScoped<IContatoQueryHandler, ContatoQueryHandler>();
+            services.AddScoped<IEventMessageQueryHandler, EventMessageQueryHandler>();
 
             //Command Handlers
 
