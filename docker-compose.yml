@@ -36,6 +36,19 @@ services:
     networks:
       - docker-network
 
+  rabbitmq-exporter:
+    image: kbudde/rabbitmq-exporter
+    ports:
+      - "9419:9419"
+    environment:
+      RABBIT_URL: http://rabbitmq:15672
+      RABBIT_USER: guest
+      RABBIT_PASSWORD: guest
+    depends_on:
+      - rabbitmq
+    networks:
+      - docker-network
+
   webapi:
     image: ${DOCKER_REGISTRY-}webapi
     build:
@@ -60,30 +73,31 @@ services:
     networks:
       - docker-network
 
-  # prometheus:
-  #   image: prom/prometheus
-  #   user: root
-  #   hostname: prometheus
-  #   volumes:
-  #     - C:\Dados\volumes\prometheus\config:/etc/prometheus
-  #     - C:\Dados\volumes\prometheus\data:/prometheus
-  #   command:
-  #     - '--config.file=/etc/prometheus/prometheus.yml'
-  #     - '--storage.tsdb.path=/prometheus'
-  #   ports:
-  #     - 9090:9090
-  #   networks:
-  #     - docker-network
+  prometheus:
+    image: prom/prometheus
+    user: root
+    hostname: prometheus
+    volumes:      
+      - C:\Dados\volumes\prometheus\config:/etc/prometheus
+      - C:\Dados\volumes\prometheus\data:/prometheus
+    command:
+      #Copiar de docker-compose\config\prometheus.yml
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    ports:
+      - 9090:9090
+    networks:
+      - docker-network
 
-  # grafana:
-  #   image: grafana/grafana
-  #   hostname: grafana
-  #   environment:
-  #     -  GF_SECURITY_ADMIN_PASSWORD=admin
-  #   ports:
-  #     - 3000:3000
-  #   networks:
-  #     - docker-network
+  grafana:
+    image: grafana/grafana
+    hostname: grafana
+    environment:
+      -  GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+      - 3000:3000
+    networks:
+      - docker-network
 
 networks:
   docker-network:
