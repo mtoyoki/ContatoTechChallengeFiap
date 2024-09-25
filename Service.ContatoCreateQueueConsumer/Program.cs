@@ -36,10 +36,10 @@ builder.Services.AddMassTransit(x =>
 builder.Services.AddOpenTelemetry().WithMetrics(builder =>
 {
     builder.AddAspNetCoreInstrumentation()
-        .AddHttpClientInstrumentation()
-        .AddRuntimeInstrumentation()
-        .AddProcessInstrumentation()
-        .AddPrometheusExporter();
+           .AddHttpClientInstrumentation()
+           .AddRuntimeInstrumentation()
+           .AddProcessInstrumentation()
+           .AddPrometheusExporter();
 });
 
 var app = builder.Build();

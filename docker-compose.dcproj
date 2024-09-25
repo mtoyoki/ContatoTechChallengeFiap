@@ -10,14 +10,13 @@
     <DockerServiceName>webapi</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="config\grafana\Dashboard - ASP.NET OTEL Metrics from OTEL Collector.json" />
+    <None Include="config\grafana\Dashboard - RabbitMQ Monitoring.json" />
     <None Include="config\prometheus\prometheus.yml" />
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="config\grafana\" />
   </ItemGroup>
 </Project>
