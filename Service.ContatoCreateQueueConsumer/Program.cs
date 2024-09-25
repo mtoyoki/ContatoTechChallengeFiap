@@ -2,14 +2,15 @@ using Infra.Data.Context;
 using IoC;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Metrics;
 using Service.ContatoCreateQueueConsumer;
-using Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddHostedService<Service.ContatoCreateQueueConsumer.Service>();
 
+builder.Services.AddControllers();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
 builder.Services.ConfigureDependencyInjection();
 
@@ -32,5 +33,21 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
+builder.Services.AddOpenTelemetry().WithMetrics(builder =>
+{
+    builder.AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddRuntimeInstrumentation()
+        .AddProcessInstrumentation()
+        .AddPrometheusExporter();
+});
+
 var app = builder.Build();
+
+app.UseRouting();
+app.UseAuthorization();
+app.MapControllers();
+
+app.UseOpenTelemetryPrometheusScrapingEndpoint();
+
 app.Run();

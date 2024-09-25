@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: Service.ContatoCreateQueueConsumer/Dockerfile
+    ports:
+      - "9464:8080"      
     depends_on:
      - rabbitmq
     networks:
@@ -96,8 +98,13 @@ services:
       -  GF_SECURITY_ADMIN_PASSWORD=admin
     ports:
       - 3000:3000
+    volumes:
+      - "grafana_storage:/var/lib/grafana"
     networks:
       - docker-network
+
+volumes:
+  grafana_storage: {}
 
 networks:
   docker-network:
