@@ -14,7 +14,9 @@ COPY ["Core/Core.csproj", "Core/"]
 COPY ["IoC/IoC.csproj", "IoC/"]
 COPY ["Application/Application.csproj", "Application/"]
 COPY ["Domain/Domain.csproj", "Domain/"]
-COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
+COPY ["Infra.Data/Infra.Data.csproj", "Infra.Data/"]
+COPY ["Infra.QueuePublisher/Infra.QueuePublisher.csproj", "Infra.QueuePublisher/"]
+COPY ["Shared/Shared.csproj", "Shared/"]
 RUN dotnet restore "./WebApi/WebApi.csproj"
 COPY . .
 WORKDIR "/src/WebApi"
