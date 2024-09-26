@@ -1,7 +1,6 @@
 ﻿using Application.Queries.Contato;
 using Core.Commands;
 using Domain.Commands.Contato;
-using Domain.Queries.Contato;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -36,6 +35,8 @@ namespace WebApi.Controllers
             try
             {
                 var contato = contatoQueryHandler.GetByIdAsync(id).Result;
+
+                if (contato == null) return NotFound("");
 
                 return Ok(contato);
             }

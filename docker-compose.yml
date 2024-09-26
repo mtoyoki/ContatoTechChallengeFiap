@@ -9,6 +9,7 @@ services:
       - "9464:8080"      
     depends_on:
      - rabbitmq
+     - sqlserver
     networks:
       - docker-network
 
@@ -18,6 +19,7 @@ services:
       dockerfile: Service.ContatoUpdateQueueConsumer/Dockerfile
     depends_on:
      - rabbitmq
+     - sqlserver
     networks:
       - docker-network
 
@@ -27,6 +29,7 @@ services:
       dockerfile: Service.ContatoDeleteQueueConsumer/Dockerfile
     depends_on:
      - rabbitmq
+     - sqlserver
     networks:
       - docker-network
 
@@ -60,6 +63,7 @@ services:
      - "8081:8081"
     depends_on:
      - sqlserver
+     - rabbitmq
     networks:
       - docker-network
 
@@ -83,7 +87,6 @@ services:
       - C:\Dados\volumes\prometheus\config:/etc/prometheus
       - C:\Dados\volumes\prometheus\data:/prometheus
     command:
-      #Copiar de docker-compose\config\prometheus.yml
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
     ports:

@@ -6,7 +6,7 @@ namespace Application.Queries.Contato
 {
     public class EventMessageQueryHandler(IEventMessageRepository repository) : IEventMessageQueryHandler
     {
-        public Task<EventMessageQueryResult> GetByEventMsgIdAsync(Guid eventMsgId)
+        public Task<EventMessageQueryResult?> GetByEventMsgIdAsync(Guid eventMsgId)
         {
             return repository.GetByEventMsgIdAsync(eventMsgId);
         }
@@ -14,6 +14,6 @@ namespace Application.Queries.Contato
 
     public interface IEventMessageQueryHandler
     {
-        Task<EventMessageQueryResult> GetByEventMsgIdAsync(Guid eventMsgId);
+        Task<EventMessageQueryResult?> GetByEventMsgIdAsync(Guid eventMsgId);
     }
 }

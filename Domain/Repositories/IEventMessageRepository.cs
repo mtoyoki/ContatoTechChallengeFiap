@@ -6,7 +6,7 @@ namespace Domain.Repositories
 {
     public interface IEventMessageRepository : IRepository<EventMessage>
     {
-        Task<EventMessageQueryResult> GetByEventMsgIdAsync(Guid eventMsgId);
+        Task<EventMessageQueryResult?> GetByEventMsgIdAsync(Guid eventMsgId);
 
     }
 }

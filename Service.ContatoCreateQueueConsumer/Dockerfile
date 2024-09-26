@@ -9,12 +9,12 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Service.ContatoCreateQueueConsumer/Service.ContatoCreateQueueConsumer.csproj", "Service.ContatoCreateQueueConsumer/"]
-COPY ["Infrastructure/Infra.Data.csproj", "Infrastructure/"]
+COPY ["Infra.Data/Infra.Data.csproj", "Infra.Data/"]
 COPY ["Domain/Domain.csproj", "Domain/"]
 COPY ["Core/Core.csproj", "Core/"]
 COPY ["IoC/IoC.csproj", "IoC/"]
 COPY ["Application/Application.csproj", "Application/"]
-COPY ["Infra.Event.Publisher/Infra.EventPublisher.csproj", "Infra.Event.Publisher/"]
+COPY ["Infra.QueuePublisher/Infra.QueuePublisher.csproj", "Infra.QueuePublisher/"]
 COPY ["Shared/Shared.csproj", "Shared/"]
 RUN dotnet restore "./Service.ContatoCreateQueueConsumer/Service.ContatoCreateQueueConsumer.csproj"
 COPY . .

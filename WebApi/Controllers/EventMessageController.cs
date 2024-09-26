@@ -14,6 +14,8 @@ namespace WebApi.Controllers
             {
                 var eventMessage = eventMessageQueryHandler.GetByEventMsgIdAsync(eventMsgId).Result;
 
+                if (eventMessage == null) return NotFound("");
+
                 var resultado = eventMessage.Result? "SUCESSO" : "ERRO";
 
                 return Ok($"[{resultado}] {eventMessage.Details}");
