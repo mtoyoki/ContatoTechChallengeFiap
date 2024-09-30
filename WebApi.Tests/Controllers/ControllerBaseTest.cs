@@ -1,7 +1,6 @@
 ﻿using Infra.Data.Context;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.MsSql;
 using Xunit;
@@ -22,7 +21,7 @@ namespace WebApi.Tests.Controllers
                 .Build();
 
 
-            var _webApplicationFactory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
+            var webApplicationFactory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
             {
                 builder.ConfigureServices(services =>
                 {
@@ -35,8 +34,8 @@ namespace WebApi.Tests.Controllers
                 });
             });
 
-            _serviceProvider = _webApplicationFactory.Services;
-            _httpClient = _webApplicationFactory.CreateClient();
+            _serviceProvider = webApplicationFactory.Services;
+            _httpClient = webApplicationFactory.CreateClient();
         }
 
         public ApplicationDbContext GetDbContext()
@@ -50,30 +49,14 @@ namespace WebApi.Tests.Controllers
             dbContext.Database.Migrate();
         }
 
-        protected virtual void SeedData(params object[] data)
-        {
-            var dbContext = GetDbContext();
-            dbContext.AddRange(data);
-            dbContext.SaveChanges();
-        }
-
-        protected void ResetDatabase()
-        {
-            var dbContext = GetDbContext();
-            dbContext.Database.ExecuteSqlRaw("DELETE CONTATO");
-            dbContext.Database.ExecuteSqlRaw("DELETE REGIAO");
-        }
-
         public async Task InitializeAsync()
         {
             await _msSqlContainer.StartAsync();
-            //StartDatabase();
         }
 
         public async Task DisposeAsync()
         {
             await _msSqlContainer.StopAsync();
-            //ResetDatabase();
         }
     }
 }

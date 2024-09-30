@@ -18,20 +18,6 @@ namespace WebApi.Tests.Controllers
     {
         private const string url = "api/contato";
 
-        //[OneTimeSetUp]
-        //public void OneTimeSetup()
-        //{
-        //    var dbContext = GetDbContext();
-        //    _contatoRepository = new ContatoRepository(dbContext);
-        //}
-
-        //[SetUp]
-        //public void SetUp()
-        //{
-        //    StartDatabase();
-        //    ResetDatabase();
-        //}
-
         [Fact]
         public void Create_Valid()
         {
@@ -49,8 +35,6 @@ namespace WebApi.Tests.Controllers
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            //(_contatoRepository.GetAllAsync().Result).Count().Should().Be(1);
-            //ResetDatabase();
         }
 
         [Fact]
@@ -74,8 +58,8 @@ namespace WebApi.Tests.Controllers
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
             //var dbContext = GetDbContext();
-            //_contatoRepository = new ContatoRepository(dbContext);
-            //(_contatoRepository.GetAllAsync().Result).Count().Should().Be(0);
+            //contatoRepository = new ContatoRepository(dbContext);
+            //(contatoRepository.GetAllAsync().Result).Count().Should().Be(0);
         }
 
 
@@ -100,11 +84,6 @@ namespace WebApi.Tests.Controllers
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-            //var dbContext = GetDbContext();
-            //_contatoRepository = new ContatoRepository(dbContext);
-            //var updatedContato = (_contatoRepository.GetAllAsync().Result).Single(c=> c.Id == contato.Id);
-            //updatedContato.Nome.Should().Be(nomeUpdate);
         }
 
         [Fact]
@@ -113,7 +92,7 @@ namespace WebApi.Tests.Controllers
             //Arrange
             StartDatabase();
 
-            Contato contato = CreateContatoAndSaveInDatabase();
+            var contato = CreateContatoAndSaveInDatabase();
 
             var nomeVazio = "";
 
@@ -169,9 +148,6 @@ namespace WebApi.Tests.Controllers
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-            //var deletedContato = (_contatoRepository.GetAllAsync().Result).SingleOrDefault(c => c.Id == contato.Id);
-            //deletedContato.Should().BeNull();
         }
 
 
@@ -235,7 +211,6 @@ namespace WebApi.Tests.Controllers
             var contatos = JsonConvert.DeserializeObject<IEnumerable<Contato>>(content);
             contatos.Should().HaveCount(countAll);
         }
-
 
         [Fact]
         public void GetByRegiaoId()
