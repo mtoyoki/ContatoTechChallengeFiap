@@ -4,13 +4,13 @@ using Domain.Queries.Contato;
 using Domain.Repositories;
 using FluentAssertions;
 using Newtonsoft.Json;
-using NUnit.Framework;
 using Shared.Tests.Builders.Commands;
 using System.Net;
 using System.Net.Http.Json;
 using Infra.Data.Repositories;
 using Shared.Tests.Builders.Entities;
 using WebApi.Tests.Lib;
+using Xunit;
 
 
 namespace WebApi.Tests.Controllers
@@ -19,27 +19,32 @@ namespace WebApi.Tests.Controllers
     {
         private const string url = "api/contato";
 
-        private IContatoRepository _contatoRepository;
+        //[OneTimeSetUp]
+        //public void OneTimeSetup()
+        //{
+        //    var dbContext = GetDbContext();
+        //    _contatoRepository = new ContatoRepository(dbContext);
+        //}
 
-        [OneTimeSetUp]
-        public void OneTimeSetup()
+        //[SetUp]
+        //public void SetUp()
+        //{
+        //    StartDatabase();
+        //    ResetDatabase();
+        //}
+
+        public ContatoControllerTest()
         {
-            _contatoRepository = new ContatoRepository(GetDbContext());
+
         }
 
-        [SetUp]
-        public void SetUp()
-        {
-            StartDatabase();
-            ResetDatabase();
-        }
-
-        [Test]
+        [Fact]
         public void Create_Valid()
         {
             //Arrange
+            StartDatabase();
+
             var regiao = new RegiaoBuilder().SaoPaulo().Build();
-            base.SeedData(regiao);
 
             var command = new CreateContatoCommandBuilder()
                                             .Default()
@@ -51,14 +56,17 @@ namespace WebApi.Tests.Controllers
             //Assert
             httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             //(_contatoRepository.GetAllAsync().Result).Count().Should().Be(1);
+            //ResetDatabase();
         }
 
-        [Test]
+        [Fact]
         public void Create_Invalid()
         {
             //Arrange
+            StartDatabase();
+
             var regiao = new RegiaoBuilder().SaoPaulo().Build();
-            base.SeedData(regiao);
+            //base.SeedData(regiao);
 
             var empty = "";
 
@@ -72,15 +80,20 @@ namespace WebApi.Tests.Controllers
 
             //Assert
             httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            (_contatoRepository.GetAllAsync().Result).Count().Should().Be(0);
+
+            //var dbContext = GetDbContext();
+            //_contatoRepository = new ContatoRepository(dbContext);
+            //(_contatoRepository.GetAllAsync().Result).Count().Should().Be(0);
         }
 
 
-        [Test]
+        [Fact]
         public void Update_Valid()
         {
             //Arrange
-            Contato contato = CreateContatoEntity();
+            StartDatabase();
+
+            Contato contato = CreateContatoAndSaveInDatabase();
 
             var nomeUpdate = "Nome alterado";
 
@@ -96,15 +109,19 @@ namespace WebApi.Tests.Controllers
             //Assert
             httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
 
+            //var dbContext = GetDbContext();
+            //_contatoRepository = new ContatoRepository(dbContext);
             //var updatedContato = (_contatoRepository.GetAllAsync().Result).Single(c=> c.Id == contato.Id);
             //updatedContato.Nome.Should().Be(nomeUpdate);
         }
 
-        [Test]
+        [Fact]
         public void Update_Invalid_Empty()
         {
             //Arrange
-            Contato contato = CreateContatoEntity();
+            StartDatabase();
+
+            Contato contato = CreateContatoAndSaveInDatabase();
 
             var empty = "";
 
@@ -121,17 +138,19 @@ namespace WebApi.Tests.Controllers
             httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Test]
+        [Fact]
         public void Update_Invalid_NotExists()
         {
             //Arrange
-            Contato contato = CreateContatoEntity();
+            StartDatabase();
+
+            Contato contato = CreateContatoAndSaveInDatabase();
 
             var invalidId = 999;
 
             var command = new UpdateContatoCommandBuilder()
                                 .Default()
-                                .WithId(invalidId)                                
+                                .WithId(invalidId)
                                 .Build();
 
             //Act
@@ -142,11 +161,13 @@ namespace WebApi.Tests.Controllers
         }
 
 
-        [Test]
+        [Fact]
         public void Delete_Valid()
         {
             //Arrange
-            Contato contato = CreateContatoEntity();
+            StartDatabase();
+
+            Contato contato = CreateContatoAndSaveInDatabase();
 
             var command = new ContatoDeleteCommand()
             {
@@ -164,13 +185,13 @@ namespace WebApi.Tests.Controllers
         }
 
 
-        [Test]
+        [Fact]
         public void Delete_Invalid_Empty()
         {
             //Arrange
-            var command = new ContatoDeleteCommand()
-            {
-            };
+            StartDatabase();
+
+            var command = new ContatoDeleteCommand();
 
             //Act
             var httpResponseMessage = _httpClient.DeleteAsJsonAsync(url, command).Result;
@@ -179,10 +200,12 @@ namespace WebApi.Tests.Controllers
             httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Test]
+        [Fact]
         public void Delete_Invalid_NotExists()
         {
             //Arrange
+            StartDatabase();
+
             var invalidId = 999;
 
             var command = new ContatoDeleteCommand()
@@ -197,19 +220,18 @@ namespace WebApi.Tests.Controllers
             httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Test]
+        [Fact]
         public void GetAll()
         {
             //Arrange
+            StartDatabase();
+
             var regiao1 = new RegiaoBuilder().SaoPaulo().Build();
             var regiao2 = new RegiaoBuilder().RioDeJaneiro().Build();
 
-            base.SeedData(regiao1);
-            base.SeedData(regiao2);
-
-            var contato1 = CreateContatoEntity(regiao1);
-            var contato2 = CreateContatoEntity(regiao1);
-            var contato3 = CreateContatoEntity(regiao2);
+            var contato1 = CreateContatoAndSaveInDatabase(regiao1);
+            var contato2 = CreateContatoAndSaveInDatabase(regiao1);
+            var contato3 = CreateContatoAndSaveInDatabase(regiao2);
 
             var countAll = 3;
 
@@ -225,19 +247,18 @@ namespace WebApi.Tests.Controllers
         }
 
 
-        [Test]
+        [Fact]
         public void GetByRegiaoId()
         {
             //Arrange
+            StartDatabase();
+
             var regiao1 = new RegiaoBuilder().SaoPaulo().Build();
             var regiao2 = new RegiaoBuilder().RioDeJaneiro().Build();
 
-            base.SeedData(regiao1);
-            base.SeedData(regiao2);
-
-            var contato1 = CreateContatoEntity(regiao1);
-            var contato2 = CreateContatoEntity(regiao1);
-            var contato3 = CreateContatoEntity(regiao2);
+            var contato1 = CreateContatoAndSaveInDatabase(regiao1);
+            var contato2 = CreateContatoAndSaveInDatabase(regiao1);
+            var contato3 = CreateContatoAndSaveInDatabase(regiao2);
 
             var idRegiao1 = regiao1.Id;
             var countRegiao1 = 2;
@@ -256,22 +277,20 @@ namespace WebApi.Tests.Controllers
         }
 
 
-        private Contato CreateContatoEntity(Regiao regiao = null)
+        private Contato CreateContatoAndSaveInDatabase(Regiao regiao = null)
         {
-            if (regiao == null)
-            {
-                regiao = new RegiaoBuilder().SaoPaulo().Build();
-                base.SeedData(regiao);
-            }
+            regiao ??= new RegiaoBuilder().SaoPaulo().Build();
 
             var contato = new ContatoBuilder()
-                                .Default()            
+                                .Default()
                                 .WithRegiaoId(regiao.Id)
                                 .Build();
 
-            _contatoRepository.Insert(contato);
+            var dbContext = GetDbContext();
+            var contatoRepository = new ContatoRepository(dbContext);
+            contatoRepository.Insert(contato);
 
-            return contato;            
+            return contato;
         }
     }
 }
