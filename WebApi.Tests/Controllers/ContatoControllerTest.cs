@@ -1,14 +1,13 @@
 ﻿using Domain.Commands.Contato;
 using Domain.Entities;
 using Domain.Queries.Contato;
-using Domain.Repositories;
 using FluentAssertions;
+using Infra.Data.Repositories;
 using Newtonsoft.Json;
 using Shared.Tests.Builders.Commands;
+using Shared.Tests.Builders.Entities;
 using System.Net;
 using System.Net.Http.Json;
-using Infra.Data.Repositories;
-using Shared.Tests.Builders.Entities;
 using WebApi.Tests.Lib;
 using Xunit;
 
@@ -33,11 +32,6 @@ namespace WebApi.Tests.Controllers
         //    ResetDatabase();
         //}
 
-        public ContatoControllerTest()
-        {
-
-        }
-
         [Fact]
         public void Create_Valid()
         {
@@ -51,10 +45,10 @@ namespace WebApi.Tests.Controllers
                                             .WithRegiaoId(regiao.Id)
                                             .Build();
             //Act
-            var httpResponseMessage = _httpClient.PostAsJsonAsync(url, command).Result;
+            var response = _httpClient.PostAsJsonAsync(url, command).Result;
 
             //Assert
-            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
             //(_contatoRepository.GetAllAsync().Result).Count().Should().Be(1);
             //ResetDatabase();
         }
@@ -65,21 +59,19 @@ namespace WebApi.Tests.Controllers
             //Arrange
             StartDatabase();
 
+            var nomeVazio = "";
             var regiao = new RegiaoBuilder().SaoPaulo().Build();
-            //base.SeedData(regiao);
-
-            var empty = "";
 
             var command = new CreateContatoCommandBuilder()
                                             .Default()
-                                            .WithNome(empty)
+                                            .WithNome(nomeVazio)
                                             .WithRegiaoId(regiao.Id)
                                             .Build();
             //Act
-            var httpResponseMessage = _httpClient.PostAsJsonAsync(url, command).Result;
+            var response = _httpClient.PostAsJsonAsync(url, command).Result;
 
             //Assert
-            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
             //var dbContext = GetDbContext();
             //_contatoRepository = new ContatoRepository(dbContext);
@@ -93,21 +85,21 @@ namespace WebApi.Tests.Controllers
             //Arrange
             StartDatabase();
 
-            Contato contato = CreateContatoAndSaveInDatabase();
+            var contato = CreateContatoAndSaveInDatabase();
 
-            var nomeUpdate = "Nome alterado";
+            var nomeAlterado = "Nome alterado";
 
             var command = new UpdateContatoCommandBuilder()
                                 .Default()
                                 .WithId(contato.Id)
-                                .WithNome(nomeUpdate)
+                                .WithNome(nomeAlterado)
                                 .Build();
 
             //Act
-            var httpResponseMessage = _httpClient.PutAsJsonAsync(url, command).Result;
+            var response = _httpClient.PutAsJsonAsync(url, command).Result;
 
             //Assert
-            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             //var dbContext = GetDbContext();
             //_contatoRepository = new ContatoRepository(dbContext);
@@ -123,19 +115,19 @@ namespace WebApi.Tests.Controllers
 
             Contato contato = CreateContatoAndSaveInDatabase();
 
-            var empty = "";
+            var nomeVazio = "";
 
             var command = new UpdateContatoCommandBuilder()
                                 .Default()
                                 .WithId(contato.Id)
-                                .WithNome(empty)
+                                .WithNome(nomeVazio)
                                 .Build();
 
             //Act
-            var httpResponseMessage = _httpClient.PutAsJsonAsync(url, command).Result;
+            var response = _httpClient.PutAsJsonAsync(url, command).Result;
 
             //Assert
-            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         [Fact]
@@ -143,8 +135,6 @@ namespace WebApi.Tests.Controllers
         {
             //Arrange
             StartDatabase();
-
-            Contato contato = CreateContatoAndSaveInDatabase();
 
             var invalidId = 999;
 
@@ -154,10 +144,10 @@ namespace WebApi.Tests.Controllers
                                 .Build();
 
             //Act
-            var httpResponseMessage = _httpClient.PutAsJsonAsync(url, command).Result;
+            var response = _httpClient.PutAsJsonAsync(url, command).Result;
 
             //Assert
-            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
 
@@ -167,7 +157,7 @@ namespace WebApi.Tests.Controllers
             //Arrange
             StartDatabase();
 
-            Contato contato = CreateContatoAndSaveInDatabase();
+            var contato = CreateContatoAndSaveInDatabase();
 
             var command = new ContatoDeleteCommand()
             {
@@ -175,10 +165,10 @@ namespace WebApi.Tests.Controllers
             };
 
             //Act
-            var httpResponseMessage = _httpClient.DeleteAsJsonAsync(url, command).Result;
+            var response = _httpClient.DeleteAsJsonAsync(url, command).Result;
 
             //Assert
-            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             //var deletedContato = (_contatoRepository.GetAllAsync().Result).SingleOrDefault(c => c.Id == contato.Id);
             //deletedContato.Should().BeNull();
@@ -194,10 +184,10 @@ namespace WebApi.Tests.Controllers
             var command = new ContatoDeleteCommand();
 
             //Act
-            var httpResponseMessage = _httpClient.DeleteAsJsonAsync(url, command).Result;
+            var response = _httpClient.DeleteAsJsonAsync(url, command).Result;
 
             //Assert
-            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         [Fact]
@@ -214,10 +204,10 @@ namespace WebApi.Tests.Controllers
             };
 
             //Act
-            var httpResponseMessage = _httpClient.DeleteAsJsonAsync(url, command).Result;
+            var response = _httpClient.DeleteAsJsonAsync(url, command).Result;
 
             //Assert
-            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         [Fact]
@@ -236,12 +226,12 @@ namespace WebApi.Tests.Controllers
             var countAll = 3;
 
             //Act
-            var httpResponseMessage = _httpClient.GetAsync(url).Result;
+            var response = _httpClient.GetAsync(url).Result;
 
             //Assert
-            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var content = httpResponseMessage.Content.ReadAsStringAsync().Result;
+            var content = response.Content.ReadAsStringAsync().Result;
             var contatos = JsonConvert.DeserializeObject<IEnumerable<Contato>>(content);
             contatos.Should().HaveCount(countAll);
         }
@@ -266,12 +256,12 @@ namespace WebApi.Tests.Controllers
             var urlListar = $"{url}/listar-por-ddd/{idRegiao1}";
 
             //Act
-            var httpResponseMessage = _httpClient.GetAsync(urlListar).Result;
+            var response = _httpClient.GetAsync(urlListar).Result;
 
             //Assert
-            httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var content = httpResponseMessage.Content.ReadAsStringAsync().Result;
+            var content = response.Content.ReadAsStringAsync().Result;
             var contatos = JsonConvert.DeserializeObject<IEnumerable<ContatoQueryResult>>(content);
             contatos.Should().HaveCount(countRegiao1);
         }
