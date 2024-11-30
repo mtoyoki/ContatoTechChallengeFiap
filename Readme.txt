@@ -3,6 +3,7 @@ Setup inicial
 1. Nas configurações do Docker Desktop, acessar a aba Kubernetes e habilitar.
 
 2. Alterar no arquivo C:\Users\mtmorinishi\.kube\config o server para https://localhost:6443
+   Toda vez que resetar o Kubernetes será necessário alterar essa configuração novamente.
 
 3. Realizar login no Docker Hub: docker login
 Usuário: mtoyoki
@@ -18,7 +19,7 @@ Senha: Dock&r123
 > kubectl get pods
 
 7. Criar o banco de dados. Abrir o Package Manager Console e executar o comando:
-> Update-Database -StartupProject Infra.Data -Connection "Server=localhost;Database=DB_CONTATO;User=sa;Password=Password#2024;TrustServerCertificate=True
+> Update-Database -StartupProject Infra.Data -Connection "Server=localhost;Database=DB_CONTATO;User=sa;Password=Password#2024;TrustServerCertificate=True"
 
 
 -------------
