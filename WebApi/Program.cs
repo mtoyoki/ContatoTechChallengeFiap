@@ -27,7 +27,7 @@ builder.Services.AddMassTransit(x =>
 {
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host(builder.Configuration.GetSection("RabbitMQ")["Host"], "/",h =>
+        cfg.Host(builder.Configuration.GetSection("RabbitMQ")["Host"], "/", h =>
         {
             h.Username(builder.Configuration.GetSection("RabbitMQ")["User"] ?? string.Empty);
             h.Password(builder.Configuration.GetSection("RabbitMQ")["Password"] ?? string.Empty);
@@ -45,11 +45,12 @@ builder.Services.AddOpenTelemetry().WithMetrics(builder =>
             .AddPrometheusExporter();
 });
 
+
 var app = builder.Build();
 
 // Configura a pipeline de requisições HTTP.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
@@ -58,9 +59,9 @@ if (app.Environment.IsDevelopment())
     });
 
     app.UseDeveloperExceptionPage();
-}
+//}
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseRouting();
 

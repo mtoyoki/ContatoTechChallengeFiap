@@ -37,6 +37,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.ContatoUpdateQueueC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.ContatoDeleteQueueConsumer", "Service.ContatoDeleteQueueConsumer\Service.ContatoDeleteQueueConsumer.csproj", "{C55FF71B-C441-4C1C-95B6-69BC1598150E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3A0177B7-D5EB-44B8-A498-D804E70D770B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{C79CAF63-11F6-4A0A-82C8-78B126C2CA96}"
+	ProjectSection(SolutionItems) = preProject
+		grafana-deployment.yaml = grafana-deployment.yaml
+		k8s\rabbitmq-deployment.yaml = k8s\rabbitmq-deployment.yaml
+		prometheus-deployment.yaml = prometheus-deployment.yaml
+		k8s\webapi-deployment.yaml = k8s\webapi-deployment.yaml
+		k8s\sqlserver-deployment.yaml = k8s\sqlserver-deployment.yaml
+		k8s\sqlserver-persistent-volume.yaml = k8s\sqlserver-persistent-volume.yaml
+		worker-contato-create-queue-consumer-deployment.yaml = worker-contato-create-queue-consumer-deployment.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

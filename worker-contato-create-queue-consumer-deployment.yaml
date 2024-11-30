@@ -1,0 +1,30 @@
+# worker-contato-create-queue-consumer-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-contato-create-queue-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker-contato-create-queue-consumer
+  template:
+    metadata:
+      labels:
+        app: worker-contato-create-queue-consumer
+    spec:
+      containers:
+      - name: worker-contato-create-queue-consumer
+        image: mtoyoki/worker-contato-create-queue-consumer
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: worker-contato-create-queue-consumer
+spec:
+  ports:
+  - port: 8080
+  selector:
+    app: worker-contato-create-queue-consumer
