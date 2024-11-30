@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: worker-contato-create-queue-consumer
-        image: your-docker-registry/worker-contato-create-queue-consumer
+        image: mtoyoki/worker-contato-create-queue-consumer
         ports:
         - containerPort: 8080
 ---

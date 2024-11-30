@@ -1,4 +1,28 @@
-# grafana-deployment.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: grafana-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/data/grafana
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: grafana-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,8 +50,8 @@ spec:
           mountPath: /var/lib/grafana
       volumes:
       - name: grafana-storage
-        hostPath:
-          path: /mnt/data/grafana
+        persistentVolumeClaim:
+          claimName: grafana-pvc
 
 ---
 apiVersion: v1
@@ -35,7 +59,10 @@ kind: Service
 metadata:
   name: grafana
 spec:
+  type: NodePort
   ports:
   - port: 3000
+    targetPort: 3000
+    nodePort: 32000
   selector:
     app: grafana

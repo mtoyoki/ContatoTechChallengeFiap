@@ -1,7 +1,7 @@
 ﻿Add-Migration Versao01 -StartupProject Infrastructure
 Add-Migration Versao02 -StartupProject Infrastructure
 
-Update-Database -StartupProject Infrastructure -Connection "Server=localhost\sqlexpress;Database=DB_CONTATO;Trusted_Connection=True;TrustServerCertificate=True"
+Update-Database -StartupProject Infra.Data -Connection "Server=localhost;Database=DB_CONTATO;Trusted_Connection=True;TrustServerCertificate=True"
 
 
 Update-Database -StartupProject Infrastructure -Connection "Server=localhost\sqlexpress;Database=DB_CONTATO;Trusted_Connection=True;TrustServerCertificate=True" -TargetMigration "Versao03"

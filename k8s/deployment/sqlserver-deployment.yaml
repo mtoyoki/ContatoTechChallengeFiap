@@ -1,9 +1,9 @@
-# sqlserver-deployment.yaml
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: sqlserver
 spec:
+  serviceName: "sqlserver"
   replicas: 1
   selector:
     matchLabels:
@@ -26,17 +26,23 @@ spec:
         volumeMounts:
         - name: mssql-data
           mountPath: /var/opt/mssql/data
-      volumes:
-      - name: mssql-data
-        persistentVolumeClaim:
-          claimName: sqlserver-pvc
+  volumeClaimTemplates:
+  - metadata:
+      name: mssql-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: sqlserver
 spec:
+  type: LoadBalancer
   ports:
   - port: 1433
+    targetPort: 1433
   selector:
     app: sqlserver

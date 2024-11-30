@@ -39,15 +39,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.ContatoDeleteQueueC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3A0177B7-D5EB-44B8-A498-D804E70D770B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{C79CAF63-11F6-4A0A-82C8-78B126C2CA96}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{87E384AB-3272-48CE-BB2C-397023224ECA}"
 	ProjectSection(SolutionItems) = preProject
-		grafana-deployment.yaml = grafana-deployment.yaml
-		k8s\rabbitmq-deployment.yaml = k8s\rabbitmq-deployment.yaml
-		prometheus-deployment.yaml = prometheus-deployment.yaml
-		k8s\webapi-deployment.yaml = k8s\webapi-deployment.yaml
-		k8s\sqlserver-deployment.yaml = k8s\sqlserver-deployment.yaml
-		k8s\sqlserver-persistent-volume.yaml = k8s\sqlserver-persistent-volume.yaml
-		worker-contato-create-queue-consumer-deployment.yaml = worker-contato-create-queue-consumer-deployment.yaml
+		Readme.txt = Readme.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deployment", "deployment", "{92B0D70C-BFF5-4571-A4F2-1B2871C48F20}"
+	ProjectSection(SolutionItems) = preProject
+		k8s\deployment\grafana-deployment.yaml = k8s\deployment\grafana-deployment.yaml
+		k8s\deployment\prometheus-deployment.yaml = k8s\deployment\prometheus-deployment.yaml
+		k8s\deployment\rabbitmq-deployment.yaml = k8s\deployment\rabbitmq-deployment.yaml
+		k8s\deployment\sqlserver-deployment.yaml = k8s\deployment\sqlserver-deployment.yaml
+		k8s\deployment\webapi-deployment.yaml = k8s\deployment\webapi-deployment.yaml
+		k8s\deployment\worker-contato-create-queue-consumer-deployment.yaml = k8s\deployment\worker-contato-create-queue-consumer-deployment.yaml
+		k8s\deployment\worker-contato-delete-queue-consumer-deployment.yaml = k8s\deployment\worker-contato-delete-queue-consumer-deployment.yaml
+		k8s\deployment\worker-contato-update-queue-consumer-deployment.yaml = k8s\deployment\worker-contato-update-queue-consumer-deployment.yaml
 	EndProjectSection
 EndProject
 Global
@@ -129,6 +135,7 @@ Global
 		{56784580-76EA-48A7-B2C1-92B05AA2FB7E} = {A46EB392-FA43-48E6-8DF4-4A3C501C22BA}
 		{43EE31ED-8DBC-41AC-A43B-631AF756FE66} = {A46EB392-FA43-48E6-8DF4-4A3C501C22BA}
 		{1C26E0CF-EC15-46B0-9E7B-A3902C5B6B16} = {A46EB392-FA43-48E6-8DF4-4A3C501C22BA}
+		{92B0D70C-BFF5-4571-A4F2-1B2871C48F20} = {87E384AB-3272-48CE-BB2C-397023224ECA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E6F2D71-9048-438B-9284-EB821A347BBC}
