@@ -9,7 +9,7 @@
 
 3. Realizar login no Docker Hub: docker login
    Usuário: mtoyoki
-   Senha: Dock&r123
+   Senha: 
 
 4. Criar a imagem dos containeres e subir no Docker Hub:
 > docker-publish.bat
